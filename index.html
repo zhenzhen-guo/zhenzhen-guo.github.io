@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zhenzhen Guo</title>
+  <link rel="icon" href="assets/icons/webicon.svg" type="image/svg+xml" />
+
+  <link rel="stylesheet" href="css/typography.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- 鼠标轨迹层：最底层，不阻挡点击 -->
+  <div class="mouse-trail" id="mouseTrail" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="name" href="index.html" style="color: inherit; text-decoration: none;">Zhenzhen Guo</a>
+    <div class="menu-toggle" style="cursor: pointer;">×</div>
+  </header>
+
+  <div class="menu-panel" id="menuPanel">
+    <p class="intro-description" style="text-indent: 0em;">Graphic designer, currently pursuing a Master's degree at
+      Aalto University, specializing in the intersection of typography, technology, and visual systems. Through a
+      research-driven approach, she explores the evolving relationship between digital culture and visual communication.
+    </p>
+    <p style="text-indent: 2em;"><a href="mailto:gzz030308@gmail.com"
+        style="color: inherit; text-decoration: inherit;">Contact</a></p>
+    <p style="text-indent: 2em;"><a href="assets/CV.pdf" target="_blank"
+        style="color: inherit; text-decoration: inherit;">CV</a></p>
+  </div>
+
+  <main class="floorplan-container">
+    <!-- Hover 在名字时出现的人像图层 -->
+    <div class="hover-portrait">
+      <img src="assets/images/gzz.png" alt="Zhenzhen portrait" />
+    </div>
+
+    <!-- SVG 平面图作为作品目录 -->
+    <!-- 把房间连成一个整体的“建筑”轮廓，更有平面图感 -->
+    <svg viewBox="0 0 1000 600" class="floorplan">
+      <!-- 外墙轮廓（仅作参考线，不可点击） -->
+      <!-- <path class="outline" d="
+        M 80 60
+        L 560 60
+        L 560 140
+        L 760 140
+        L 760 320
+        L 880 320
+        L 880 520
+        L 260 520
+        L 260 360
+        L 80 360
+        Z
+      " /> -->
+
+      <g class="room" data-link="street-view-fails.html">
+        <path class="room-hitbox" d="M 80 200 L 320 200 L 320 360 L 80 360 Z" />
+        <path class="room-stroke" d="
+          M 85 200 L 200 200 
+          M 230 200 L 305 200
+          M 320 215 L 320 280
+          M 320 310 L 320 345
+          M 305 360 L 170 360
+          M 140 360 L 90 360
+          M 80 345 L 80 280
+          M 80 250 L 80 215
+        " />
+      </g>
+
+      <!-- Room 2 (top middle): Slice Wardrobe (Hanger) -->
+      <g class="room" data-link="slice-wardrobe.html">
+        <path class="room-hitbox" d="M 200 60 L 560 60 L 560 180 L 320 180 L 320 200 L 200 200 Z" />
+        <path class="room-stroke" d="
+          M 215 60 L 400 60
+          M 450 60 L 550 60
+          M 560 75 L 560 140
+          M 560 160 L 560 175
+          M 545 180 L 335 180
+          M 320 185 L 320 195
+          M 310 200 L 205 200
+          M 200 185 L 200 75
+        " />
+      </g>
+
+      <!-- Room 3 (far right vertical room/pre-reserved): Integrated Design Dimensions -->
+      <g class="room" data-link="integrated-design-dimensions.html">
+        <path class="room-hitbox"
+          d="M 620 320 L 880 320 L 880 520 L 620 520 L 620 440 L 680 440 L 680 360 L 620 360 Z" />
+        <path class="room-stroke" d="
+          M 635 320 L 800 320
+          M 830 320 L 870 320
+          M 880 335 L 880 450
+          M 880 480 L 880 510
+          M 865 520 L 635 520
+          M 620 505 L 620 455
+          M 635 440 L 670 440
+          M 680 425 L 680 375
+          M 670 360 L 635 360
+          M 620 345 L 620 335
+        " />
+      </g>
+
+      <!-- Room 4 (top right): Changwon Atlas -->
+      <g class="room" data-link="changwon-atlas.html">
+        <path class="room-hitbox" d="M 560 140 L 760 140 L 760 320 L 620 320 L 620 220 L 560 220 Z" />
+        <path class="room-stroke" d="
+          M 570 140 L 680 140
+          M 710 140 L 750 140
+          M 760 155 L 760 270
+          M 760 290 L 760 310
+          M 745 320 L 635 320
+          M 620 305 L 620 240
+          M 620 220 L 575 220
+          M 560 210 L 560 155
+        " />
+      </g>
+
+      <!-- Room 5 (top left entrance square/pre-reserved): Pin Stencil -->
+      <g class="room" data-link="pin-stencil.html">
+        <path class="room-hitbox" d="M 80 60 L 200 60 L 200 200 L 80 200 Z" />
+        <path class="room-stroke" d="
+          M 95 60 L 185 60
+          M 200 75 L 200 130
+          M 200 160 L 200 185
+          M 185 200 L 95 200
+          M 80 185 L 80 140
+          M 80 110 L 80 75
+        " />
+      </g>
+
+      <!-- Room 6 (bottom middle): GokLok -->
+      <g class="room" data-link="goklok.html">
+        <path class="room-hitbox"
+          d="M 320 280 L 500 280 L 500 360 L 620 360 L 620 440 L 380 440 L 380 520 L 260 520 L 260 360 L 320 360 Z" />
+        <path class="room-stroke" d="
+          M 335 280 L 400 280
+          M 430 280 L 490 280
+          M 500 295 L 500 350
+          M 515 360 L 605 360
+          M 620 375 L 620 430
+          M 605 440 L 395 440
+          M 380 455 L 380 505
+          M 365 520 L 275 520
+          M 260 505 L 260 375
+          M 275 360 L 305 360
+          M 320 345 L 320 295
+        " />
+      </g>
+
+      <!-- Room 7 (bottom right): Wisdom Tree Cafe -->
+      <g class="room" data-link="wisdom-tree-cafe.html">
+        <path class="room-hitbox" d="M 380 440 L 620 440 L 620 520 L 380 520 Z" />
+        <path class="room-stroke" d="
+          M 395 440 L 605 440
+          M 620 455 L 620 505
+          M 605 520 L 395 520
+          M 380 505 L 380 455
+        " />
+      </g>
+
+      <!-- 数字 -->
+      <g class="room-labels-layer" aria-hidden="true" style="pointer-events: none;">
+        <!-- SVF -->
+        <text class="room-label" x="200" y="280" text-anchor="middle" dominant-baseline="middle">1</text>
+
+        <!-- Slice Wardrobe -->
+        <text class="room-label" x="358" y="118" text-anchor="middle" dominant-baseline="middle">2</text>
+
+        <!-- Pin Stencil: right edge, center roughly 738, 418 -->
+        <text class="room-label" x="738" y="418" text-anchor="middle" dominant-baseline="middle">3</text>
+
+        <!-- Changwon Atlas: top right, center roughly 658, 202 -->
+        <text class="room-label" x="658" y="202" text-anchor="middle" dominant-baseline="middle">4</text>
+
+        <!-- Integrated Design: top left, center roughly 122, 122 -->
+        <text class="room-label" x="122" y="122" text-anchor="middle" dominant-baseline="middle">5</text>
+
+        <!-- GokLok -->
+        <text class="room-label" x="430" y="378" text-anchor="middle" dominant-baseline="middle">6</text>
+
+        <!-- Wisdom Tree Cafe: bottom right, center roughly 500, 480 -->
+        <text class="room-label" x="500" y="480" text-anchor="middle" dominant-baseline="middle">7</text>
+      </g>
+    </svg>
+  </main>
+
+  <!-- Hover Image Preview Container -->
+  <div id="hover-preview-container"></div>
+
+  <footer class="site-footer projects-footer" id="projectsFooter">
+    <!-- 固定在顶部的边界线和 Index 按钮 -->
+    <div class="footer-fixed-bar" id="footerDragBar">
+      <div class="list-toggle-btn" id="indexToggleBtn">
+        <span class="list-text">Index</span>
+        <img src="assets/icons/enter.svg" class="list-enter-icon" alt="enter" />
+        <span class="list-close-icon">×</span>
+        <div class="index-dropdown" id="indexDropdown">
+          <div class="index-item" data-target-link="street-view-fails.html">
+            <span class="list-text">Street View Fails</span>
+          </div>
+          <div class="index-item" data-target-link="slice-wardrobe.html">
+            <span class="list-text">Hanger</span>
+          </div>
+          <div class="index-item" data-target-link="integrated-design-dimensions.html">
+            <span class="list-text">Integrated Design Dimensions</span>
+          </div>
+          <div class="index-item" data-target-link="changwon-atlas.html">
+            <span class="list-text">Changwon Sculpture Atlas</span>
+          </div>
+          <div class="index-item" data-target-link="pin-stencil.html">
+            <span class="list-text">Pin Stencil</span>
+          </div>
+          <div class="index-item" data-target-link="goklok.html">
+            <span class="list-text">GOKLOK</span>
+          </div>
+          <div class="index-item" data-target-link="wisdom-tree-cafe.html">
+            <span class="list-text">Wisdom Tree Cafe</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 允许滚动的内容区域 -->
+    <div class="footer-scroll-area">
+      <!-- 原本 top bar 的排版占位区，包含 Projects 标题 -->
+      <div class="footer-top-bar-placeholder">
+        <p class="projects-title" style="text-indent: 0em;">Projects</p>
+      </div>
+
+      <!-- 隐藏的作品列表（上拉时显示出来） -->
+      <div class="footer-project-list" id="footerProjectList">
+
+        <div class="footer-project-item expanded-project" id="project-street-view-fails" style="margin-top: 10px;">
+          <span class="list-text project-title-text">Street View Fails (1)(2)(3)</span>
+
+          <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
+            <div class="details-left">
+              <p>This project explores the concept of Digital Dérive within the stitched reality of Google Street View.
+                While the platform aims for a seamless virtual world, its inherent glitches—distortions, privacy lapses,
+                and visual fragments—reveal the "cracks" in contemporary digital culture.</p>
+              <p>The work involves a systematic extraction of geometric distortions found in these glitches, resulting
+                in an experimental typeface ‘Ploid’ and a three-volume editorial series. By translating digital errors
+                into a tangible visual language, the design critiques the perceived reliability of digital mapping
+                systems and investigates how technology reshapes our viewing and reading habits.</p>
+            </div>
+
+            <div class="details-right">
+              <p>Category | Editorial, typeface</p>
+              <p>Editor, Designer | Guo Zhenzhen</p>
+              <p>Thesis Advisor | Wang Dan</p>
+              <p>Year | 2025 *bachelor thesis</p>
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 0px; position: relative;">
+            <div class="image-left">
+              <img src="assets/images/SVF/01.jpg" alt="Street View Fails 01"
+                style="width: 100%; height: auto; display: block;">
+            </div>
+
+            <div class="image-right">
+              <img src="assets/images/SVF/02.jpg" alt="Street View Fails 02"
+                style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+              <img src="assets/images/SVF/03.jpg" alt="Street View Fails 03"
+                style="width: 100%; height: auto; display: block;">
+            </div>
+
+          </div>
+
+          <div class="project-images" style="margin-top: 10px; margin-bottom: 0px; position: relative;">
+            <div class="image-left1">
+              <img src="assets/images/SVF/07.jpg" alt="Street View Fails 04"
+                style="width: 100%; height: auto; display: block;">
+            </div>
+
+            <div class="image-right1">
+              <img src="assets/images/SVF/08.jpg" alt="Street View Fails 05"
+                style="width: 100%; height: auto; display: block">
+            </div>
+
+            <div class="image-middle">
+              <img src="assets/images/SVF/04.png" alt="Street View Fails 06"
+                style="width: 100%; height: auto; display: block; margin-top: 10px; ">
+            </div>
+
+          </div>
+
+          <div class="project-images" style="margin-top: 10px; margin-bottom: 10px; position: relative;">
+            <div class="image-left1">
+              <img src="assets/images/SVF/05.JPG" alt="Street View Fails 07"
+                style="width: 100%; height: auto; display: block;">
+            </div>
+
+            <div class="image-right1">
+              <img src="assets/images/SVF/06.jpg" alt="Street View Fails 08"
+                style="width: 100%; height: auto; display: block">
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 10px; margin-bottom: 0px; position: relative;">
+            <div class="image-middle scrub-video-container" style="margin-bottom: 10px; cursor: col-resize;">
+              <video src="assets/images/SVF/wholebook.mp4" autoplay loop muted playsinline
+                alt="Street View Fails Book Video" style="width: 100%; height: auto; display: block;"></video>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="footer-project-item expanded-project" id="project-slice-wardrobe" style="margin-top: 30px;">
+          <br>
+          <!-- <span class="list-text">Slice Wardrobe</span> -->
+          <span class="list-text">'Hanger' typeface</span>
+          <br>
+          <span class="list-text">Poster for Fashion Future 2060 Workshop</span>
+
+          <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
+            <div class="details-left">
+              <p>Fashion Future 2060 is a
+                participatory speculative design workshop, which imagines a future where personal wardrobes
+                are strictly regulated by a “Clothing Mass Index,” eliminating the production of non-essential textiles
+                and maximizing the wearing rate of a minimal number of garments.</p>
+              <p>The typeface responds directly to this scenario. Each letter is suspended from a shared baseline,
+                behaving like garments hanging from a rail. The structure suggests constraint, gravity, and limited
+                capacity — a controlled system where excess is no longer possible.</p>
+            </div>
+
+            <div class="details-right">
+              <p>Category | Typeface, poster, visual identity</p>
+              <p>Designer | Guo Zhenzhen</p>
+              <p>Year | 2026 *ongoing</p>
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 0px; position: relative;">
+            <div class="image-middle">
+              <img src="assets/images/hanger/hanger.png" alt="fashion future 2060"
+                style="width: 100%; height: auto; display: block; margin-top: 10px; margin-bottom: 10px;">
+            </div>
+
+            <div class="image-middle">
+              <img src="assets/images/hanger/01.png" alt="role" style="width: 100%; height: auto; display: block;">
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 10px; margin-bottom: 20px; position: relative;">
+
+            <div class="image-left1">
+              <img src="assets/images/hanger/03.jpg" alt="workshop" style="width: 100%; height: auto; display: block">
+            </div>
+
+            <div class="image-right1">
+              <img src="assets/images/hanger/04.jpg" alt="workshop" style="width: 100%; height: auto; display: block">
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-project-item expanded-project" id="project-integrated-design-dimensions"
+          style="margin-top: 30px;">
+          <br>
+          <span class="list-text">Integrated Design Dimensions<br>
+            2025 Undergraduate Graduation Exhibition of the School of Design,<br>
+            Shanghai Jiao Tong University
+          </span>
+
+          <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
+            <div class="details-left">
+              <p>The visual identity for the 2025 Graduation Exhibition centers on the concept of design as a process of
+                "initiating connections" rather than defining boundaries. The key visual is systematically derived from
+                the floor plan of the School of Design’s building, translating physical space into a dynamic graphic
+                language.</p>
+              <p>From this architectural base, five geometric forms were generated to represent the school's four
+                undergraduate disciplines. Through slicing, rotation, and reconfiguration, these forms compose an open
+                visual system that symbolizes cross-disciplinary convergence and transformation.</p>
+              <!-- <p>Design is not a definitive answer, but a way of moving through.
+                Integrated Design Dimension is not about drawing boundaries, but about initiating connections.
+                Within this dimension of integration, we raise questions and seek pathways.
+              </p>
+              <p>The key visual is derived from the floor plan of School of Design’s building. From this base, five
+                graphic forms are generated, each corresponding to the initials of the school’s four undergraduate
+                programs: Architecture, Landscape Architecture, Industrial Design, and Visual Communication Design.
+                Through geometric slicing, rotation, and reconfiguration, these forms compose a dynamic and open
+                visual
+                system—symbolizing the convergence, transformation, and co-creation across disciplines.</p> -->
+            </div>
+
+            <div class="details-right">
+              <p>Category | Visual identity, exhibition, motion design</p>
+              <p>Client | Shanghai Jiao Tong University</p>
+              <p>Designer | Huang Yanchao, Guo Zhenzhen</p>
+              <p>Team | Zhu Hanyu, Jin Weiyue, Shen Wenxi, Huang Jingyi</p>
+              <p>Year | 2025</p>
+            </div>
+
+          </div>
+
+          <div class="project-images" style="margin-top: 0px; position: relative;">
+
+            <div class="image-left" style="margin-bottom: 10px;">
+              <video src="assets/images/SJTU25/poster.MP4" autoplay loop muted playsinline alt="Street View Fails 01"
+                style="width: 100%; height: auto; display: block;"></video>
+            </div>
+
+            <div class="image-right">
+              <img src="assets/images/SJTU25/00.JPG" alt="SJTU25 01"
+                style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+              <img src="assets/images/SJTU25/03.JPG" alt="SJTU25 02"
+                style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+              <img src="assets/images/SJTU25/06.JPG" alt="SJTU25 03"
+                style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+              <img src="assets/images/SJTU25/07.JPG" alt="SJTU25 04"
+                style="width: 100%; height: auto; display: block; margin-bottom: 10px;">
+            </div>
+
+            <div class="image-middle" style="margin-bottom: 10px;">
+              <img src="assets/images/SJTU25/01.JPG" alt="SJTU25 01" style="width: 100%; height: auto; display: block;">
+            </div>
+
+            <div class="image-middle" style="margin-bottom: 20px;">
+              <img src="assets/images/SJTU25/10.JPG" alt="SJTU25 10" style="width: 100%; height: auto; display: block;">
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer-project-item expanded-project" id="project-changwon-atlas" style="margin-top: 30px;">
+          <br>
+          <span class="list-text">Changwon Sculpture Atlas</span>
+
+          <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
+            <div class="details-left">
+              <!-- <p>Changwon Sculpture Atlas is a digital, research-based cultural mapping project developed for the 2026
+                Changwon Sculpture Biennale. Conceived as a platform for reading the city as a multilayered geological
+                and cultural field, the project visualizes Changwon’s cultural ecology through a data–image–map archive
+                that identifies the keywords shaping the city’s histories, memories, and spatial textures. By remapping
+                permanent public sculptures and exhibition trajectories across the city since the Biennale’s founding in
+                2010, the project traces how Changwon and its Biennale have mutually shaped each other’s temporal and
+                cultural landscape.</p>
+              <p>Functioning as a core tool for artists, the Atlas provides a contextual framework that allows works to
+                “resonate” with the city’s unique conditions. For audiences, it opens a new perceptual window into
+                Changwon—not as a fixed image, but as a complex urban organism shaped by overlapping layers of history,
+                nature, and industry. More than a repository of information, Changwon Sculpture Atlas operates as an
+                infrastructural backbone that rearticulates the city as a living cultural cartography and a resonance
+                field in which the Biennale unfolds.</p> -->
+              <p>Official website: <a href="https://changwon.dotway.cn/" target="_blank"
+                  style="color: inherit; text-decoration: underline; text-underline-offset: 4px;">https://changwon.dotway.cn/</a>
+              </p>
+              <p>Changwon Sculpture Atlas is a digital research and cultural mapping project for the 2026 Changwon
+                Sculpture Biennale. It visualizes the city’s cultural ecology by archiving the intersections of data,
+                images, and maps since 2010.</p>
+              <p>The project functions as an infrastructural backbone, remapping public sculptures and exhibition
+                trajectories to trace the mutual evolution of the city and the Biennale. By identifying key histories
+                and spatial textures, the Atlas provides a contextual framework for artists to engage with the urban
+                landscape and offers audiences a new perceptual window into Changwon as a living cultural organism.</p>
+            </div>
+
+            <div class="details-right">
+              <p>Category | Website, Exhibition</p>
+              <p>Client | Changwon Sculpture Biennial</p>
+              <p>Designer | Huang Yanchao, Guo Zhenzhen</p>
+              <p>Year | 2025, 2026</p>
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 0px; position: relative;">
+            <div class="image-middle" style="margin-bottom: 20px;">
+              <video src="assets/images/changwon/exhibition.mp4" autoplay loop muted playsinline alt="Changwon Atlas"
+                style="width: 100%; height: auto; display: block;"></video>
+            </div>
+            <div class="image-middle" style="margin-bottom: 20px;">
+              <video src="assets/images/changwon/changwon.mov" autoplay loop muted playsinline alt="Changwon Atlas"
+                style="width: 100%; height: auto; display: block;"></video>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-project-item expanded-project" id="project-pin-stencil" style="margin-top: 30px;">
+          <br>
+          <span class="list-text">Pin Stencil<br>
+            A Lettering Guide from Safety Pins</span>
+
+          <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
+            <div class="details-left">
+              <p>Developed during a five-day intensive workshop, this project explores the structural logic of a common
+                object: the safety pin. By analyzing the physical form and mechanical deformation of the pin, the work
+                translates the tension and flexibility of steel wire into a modular lettering system.</p>
+              <p>The outcome is a laser-cut stencil guide (shablone) that allows for infinite extension and flexible
+                bending of letterforms. Using this guide, a display typeface was created, specifically designed for
+                headlines where characters can be interconnected. This project bridges the gap between tactile
+                craftsmanship and systematic type design, turning a mundane tool into a versatile graphic instrument.
+              </p>
+            </div>
+
+            <div class="details-right">
+              <p>Category | Typeface, lettering guide</p>
+              <p>Designer | Guo Zhenzhen</p>
+              <p>Year | 2026</p>
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 0px; position: relative;">
+            <div class="image-middle" style="margin-bottom: 10px;">
+              <img src="assets/images/pin/00.png" alt="Pin Stencil 00"
+                style="width: 100%; height: auto; display: block; margin-top: 10px; margin-bottom: 10px;">
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 10px; margin-bottom: 20px; position: relative;">
+
+            <div class="image-left1">
+              <img src="assets/images/pin/01.png" alt="workshop" style="width: 100%; height: auto; display: block">
+            </div>
+
+            <div class="image-right1">
+              <img src="assets/images/pin/02.png" alt="workshop" style="width: 100%; height: auto; display: block">
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-project-item expanded-project" id="project-goklok" style="margin-top: 30px;">
+          <br>
+          <span class="list-text project-title-text">GOKLOK</span>
+
+          <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
+            <div class="details-left">
+              <!-- <p>Under the Jiangchuan Road overpass, amidst dense high-rise developments, elderly residents lacking
+                public spaces and limited cultural opportunities have spontaneously formed a vibrant activity hub.
+                These elders display notable goodwill toward younger generations, while nearby universities and
+                industrial parks present opportunities to infuse youthful energy and external resources into this
+                space. Through the GOKLOK local branding initiative, we empower the underpass community to inspire
+                collective use of idle spaces.</p> -->
+              <p>"GOKLOK" is an experimental local lifestyle brand with three sub-brands: "Gasanhulu," "Haobaixiang,"
+                and "Ditantou." We hope to connect with various stakeholders, starting from gray spaces such as under
+                bridges, encouraging community cultural promotion, residents' hobby activities, and convenient service
+                stalls. We inspire everyone to share idle spaces, leading to a sustainable life from the environment to
+                society and even business.</p>
+              <p>"Cengxinxian" is a limited-time activity by GOKLOK, aiming to collaborate with nearby stores to sell
+                near-expiry products in the form of lucky bags, promoting sustainable concepts.</p>
+            </div>
+
+            <div class="details-right">
+              <!-- <p>Client | Minhang District, Shanghai</p> -->
+              <p>Category | Branding, packaging, social design</p>
+              <p>Designer | Zhuo Yiqun, Guo Zhenzhen</p>
+              <p>Year | 2023</p>
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 0px; position: relative;">
+            <div class="image-middle">
+              <img src="assets/images/goklok/00.png" alt="goklok logo"
+                style="width: 100%; height: auto; display: block; margin-top: 10px; margin-bottom: 10px;">
+            </div>
+
+            <div class="image-middle">
+              <img src="assets/images/goklok/01.png" alt="goklok poster"
+                style="width: 100%; height: auto; display: block; margin-top: 10px; margin-bottom: 10px;">
+            </div>
+
+          </div>
+
+          <div class="project-images" style="margin-top: 0px; position: relative;">
+
+            <div class="image-left" style="margin-bottom: 10px;">
+              <img src="assets/images/goklok/02.png" alt="cengxinxian"
+                style="width: 100%; height: auto; display: block; margin-bottom: 0px;">
+            </div>
+
+            <div class="image-right">
+              <img src="assets/images/goklok/03.png" alt="cengxinxian"
+                style="width: 100%; height: auto; display: block; margin-bottom: 0px;">
+            </div>
+
+            <div class="image-middle">
+              <img src="assets/images/goklok/04.png" alt="cengxinxian"
+                style="width: 100%; height: auto; display: block; margin-top: 0px; margin-bottom: 0px;">
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 10px; position: relative;">
+
+            <div class="image-left" style="margin-bottom: 20px;">
+              <img src="assets/images/goklok/05.png" alt="cengxinxian"
+                style="width: 100%; height: auto; display: block; margin-bottom: 20px;">
+            </div>
+
+            <div class="image-right">
+              <img src="assets/images/goklok/07.png" alt="cengxinxian"
+                style="width: 100%; height: auto; display: block; margin-bottom: 20px;">
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-project-item expanded-project" id="project-wisdom-tree-cafe" style="margin-top: 30px;">
+          <br>
+          <span class="list-text project-title-text">Wisdom Tree Cafe</span>
+
+          <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
+            <div class="details-left">
+              <p>Adapted from volunteering experience at the Wisdom Tree Disability Service Community into an
+                interactive picture book. Aiming to invite more people into this community and help them understand the
+                desire for social inclusion that these individuals have.</p>
+              <p>Animation and interaction made with Unity. Launched as an application on iPad with Xcode.</p>
+            </div>
+
+            <div class="details-right">
+              <p>Category | Interaction, illustration</p>
+              <p>Author | Zhuo Yiqun, Guo Zhenzhen</p>
+              <p>Year | 2022</p>
+            </div>
+          </div>
+
+          <div class="project-images" style="margin-top: 0px; position: relative;">
+            <div class="image-middle" style="margin-bottom: 20px;">
+              <video src="assets/images/wisdomtree/promotion.mp4" autoplay loop muted playsinline alt="Wisdom Tree Cafe"
+                style="width: 100%; height: auto; display: block;"></video>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/interaction.js"></script>
+
+</body>
+
+</html>

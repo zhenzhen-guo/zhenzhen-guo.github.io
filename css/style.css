@@ -1,0 +1,464 @@
+  body {
+    background: #F7F7F7;
+    color: rgb(255, 255, 255);
+    z-index: 0;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  /* 所有文字 hover 时显示下划线（覆盖内联 style），排除 site-footer 整体的 hover，只对项目和链接做下划线 */
+  a:hover,
+  p:hover,
+  .menu-toggle:hover {
+    text-decoration: underline !important;
+  }
+
+  .intro-description:hover {
+    text-decoration: none !important;
+  }
+
+  /* 人像图：不参与反色，正常显示 */
+  .hover-portrait {
+    mix-blend-mode: normal;
+  }
+
+  .hover-portrait img {
+    mix-blend-mode: normal;
+  }
+
+  /* 平面图整体参与反色，叠在人像或白底上都会反色 */
+  .floorplan {
+    mix-blend-mode: difference;
+  }
+
+  .room-hitbox {
+    fill: rgba(255, 255, 255, 0);
+    stroke: none;
+    /* Strokes are now handled by separate line paths */
+    cursor: pointer;
+  }
+
+  .room-stroke {
+    fill: none;
+    stroke: rgb(255, 255, 255);
+    stroke-width: 1.9px;
+    /* Matches footer border */
+    pointer-events: none;
+    /* Clicks go through to the hitbox */
+  }
+
+  .outline {
+    fill: none;
+    stroke: rgb(255, 255, 255);
+    stroke-width: 1.9px;
+    /* Matches footer border */
+  }
+
+  /* 序号层：全部反色，黑圆白字；字永远在最上 */
+  .room-labels-layer {
+    mix-blend-mode: difference;
+  }
+
+  .room-label {
+    font-family: Helvetica, Arial, sans-serif;
+    letter-spacing: 0;
+    fill: rgb(255, 255, 255);
+    text-anchor: middle;
+    dominant-baseline: middle;
+    mix-blend-mode: normal;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  /* Hover Preview Container styling */
+  #hover-preview-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    /* Behind the SVG map but above the background */
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40vw;
+    /* Not too big, standard width */
+    max-width: 400px;
+  }
+
+  #hover-preview-container img,
+  #hover-preview-container video {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    mix-blend-mode: normal;
+    /* Normal image color */
+    filter: none;
+  }
+
+  /* 悬停名字时出现的人像图片，叠在平面图下面、画面 2/3 宽度，居中 */
+  .hover-portrait {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -100;
+    /* 在 floorplan 下方 */
+  }
+
+  .hover-portrait img {
+    /* width: 90vw; 大约 2/3 视口宽度
+    height: auto; */
+    height: 80vh;
+    /* 大约 2/3 视口宽度 */
+    width: auto;
+    display: block;
+  }
+
+  body.show-portrait .hover-portrait {
+    opacity: 1;
+  }
+
+  /* Projects 底部单独标题样式 */
+  .projects-footer {
+    padding: 0;
+    background-color: #F7F7F7;
+    color: rgb(0, 0, 0);
+    mix-blend-mode: normal !important;
+    z-index: 150 !important;
+    border-top: none;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    /* transition: height 0.3s ease; 会在 JS 释放时添加 */
+    height: 70px;
+    /* 默认高度 */
+    overflow: visible;
+  }
+
+  .footer-fixed-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    z-index: 10;
+    cursor: grab;
+  }
+
+  .footer-fixed-bar:active {
+    cursor: grabbing;
+  }
+
+  .footer-scroll-area {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-top-bar-placeholder {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    flex-shrink: 0;
+  }
+
+  .footer-project-list {
+    padding: 24px 40px 40px 40px;
+    /* 两侧保持 40px padding，上方增加 24px 作为空行 */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* 间距 */
+  }
+
+  .footer-project-item {
+    font-size: 1rem;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    width: max-content;
+  }
+
+  .footer-project-item.expanded-project {
+    width: 100%;
+    cursor: default;
+    /* Remove pointer since it's an expanded view now, only title should perhaps be clickable */
+    position: relative;
+  }
+
+  .expanded-project .project-title-text {
+    cursor: default;
+    display: inline-block;
+  }
+
+  .expanded-project .project-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .expanded-project .details-left {
+    width: calc(70vw - 70px);
+    /* Match .menu-panel but stop 30px before 70vw */
+    flex-shrink: 0;
+  }
+
+  /* Right block absolute to align perfectly with index toggle */
+  .expanded-project .details-right,
+  .expanded-project .image-right {
+    position: absolute;
+    /* matches indexToggleBtn absolute alignment based on viewport */
+    left: calc(70vw - 20px - 40px);
+    right: 0;
+    /* Align right to the container padding, matching index button's right: 40px */
+    top: 0;
+    white-space: normal;
+    /* allow wrapping if needed */
+  }
+
+  .expanded-project .image-left {
+    width: calc(70vw - 70px);
+    flex-shrink: 0;
+  }
+
+  .expanded-project .image-middle {
+    width: calc(100vw - 80px);
+    flex-shrink: 0;
+  }
+
+  .expanded-project .image-left1 {
+    width: calc(50vw - 5px - 40px);
+    flex-shrink: 0;
+  }
+
+  .expanded-project .image-right1 {
+    position: absolute;
+    left: calc(50vw + 5px - 40px);
+    right: 0;
+    top: 0;
+    white-space: normal;
+  }
+
+  .expanded-project .image-middle {
+    width: calc(100vw - 80px);
+    flex-shrink: 0;
+  }
+
+  /* Projects底下的所有文字内容hover都不要出现下划线 */
+  .footer-project-list *:hover,
+  .footer-project-list p:hover {
+    text-decoration: none !important;
+  }
+
+  .projects-title {
+    font-family: 'ABCFavoritLining', Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+    margin: 0;
+  }
+
+  /* 取消普通 hover 的 underline 对标题的干扰 */
+  .projects-title:hover {
+    text-decoration: none !important;
+  }
+
+  /* List 长方形框按钮 */
+  .list-toggle-btn {
+    position: absolute;
+    left: calc(70% - 16px);
+    /* 保证原本绝对位置不变 */
+    right: 40px;
+    /* 最右侧和顶部 menu-toggle（×） 的 40px padding 保持对齐 */
+
+    /* 白色底黑色描边 */
+    background-color: #F7F7F7;
+    border: none;
+    border-radius: 9999px;
+    box-shadow: inset 0 0px 5px rgba(0, 0, 0, 0.2);
+    mix-blend-mode: normal;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* 文字和 icon 分居左右 */
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  .list-text {
+    /* 字号、字体和 Zhenzhen Guo 一致。 Zhenzhen Guo 在 header，字号 1rem（默认 16px），使用默认的 sans-serif */
+    font-size: 1rem;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .list-enter-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0;
+    /* 默认隐藏 */
+    transition: opacity 0.2s ease;
+  }
+
+  /* 点击展开状态下的 × 图标 */
+  .list-close-icon {
+    display: none;
+    font-size: 1.2rem;
+    font-family: Helvetica, Arial, sans-serif;
+    line-height: 20px;
+  }
+
+  .list-toggle-btn:hover>.list-enter-icon {
+    opacity: 1;
+    /* hover toggle btn 本身时显示 btn 的 enter icon */
+  }
+
+  /* 展开情况悬浮显示 × 图标并隐藏 enter 图标 */
+  .list-toggle-btn.open>.list-enter-icon {
+    display: none;
+  }
+
+  .list-toggle-btn.open>.list-close-icon {
+    display: inline-block;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .list-toggle-btn.open:hover>.list-close-icon {
+    opacity: 1;
+  }
+
+  /* Index Dropdown Menu */
+  .index-dropdown {
+    display: none;
+    position: absolute;
+    /* 默认向上展开（由于 footer 一般在底部） */
+    bottom: calc(100% + 15px);
+    top: auto;
+
+    left: 0;
+    right: 0;
+    background-color: #323232;
+    border: none;
+    border-radius: 20px;
+    box-shadow: inset 0 0px 5px rgba(0, 0, 0, 0.4);
+    /* Slightly stronger shadow for dark bg */
+    flex-direction: column;
+    max-height: 50vh;
+    overflow-y: auto;
+    z-index: 9999;
+    /* 永远在最上层 */
+    padding: 8px 0;
+    /* Add some padding for the rounded corners */
+  }
+
+  /* 当 Projects 被拉到此时，它需要向下展开 */
+  .index-dropdown.drop-down {
+    bottom: auto;
+    top: calc(100% + 15px);
+  }
+
+  .index-dropdown.show {
+    display: flex;
+  }
+
+  .index-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    color: #E6E6E6;
+  }
+
+  .index-item:hover .list-text,
+  .index-item.active .list-text {
+    text-decoration: underline !important;
+  }
+
+  @media (max-width: 768px) {
+    .footer-fixed-bar {
+      padding: 0 20px;
+    }
+
+    .footer-top-bar-placeholder {
+      padding: 0 20px;
+    }
+
+    .footer-project-list {
+      padding: 24px 20px 40px 20px;
+    }
+
+    .expanded-project .details-left {
+      width: calc(70vw - 50px);
+    }
+
+    .expanded-project .details-right {
+      left: calc(70vw - 16px - 20px);
+    }
+
+    /* 所有类型的图片区域容器统一垂直排布并撑满宽度 */
+    .expanded-project .project-images {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .expanded-project .project-images+.project-images {
+      margin-top: 10px !important;
+    }
+
+    /* 将所有类型的图片栏全宽并取消定位 */
+    .expanded-project .image-left,
+    .expanded-project .image-right,
+    .expanded-project .image-left1,
+    .expanded-project .image-right1,
+    .expanded-project .image-middle,
+    .image-row-sjtu-1,
+    .image-row-sjtu-2 {
+      position: static !important;
+      width: 100% !important;
+      left: auto !important;
+      right: auto !important;
+      margin: 0 !important;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .image-row-sjtu-1 .video-left,
+    .image-row-sjtu-1 .img-right,
+    .image-row-sjtu-2 .split-item {
+      width: 100% !important;
+      margin: 0 !important;
+    }
+
+    /* 强制清空图片内联 margin 等属性 */
+    .expanded-project .project-images img,
+    .expanded-project .project-images video {
+      width: 100% !important;
+      height: auto !important;
+      margin: 0 !important;
+      display: block !important;
+    }
+
+    .list-toggle-btn {
+      right: 20px;
+    }
+  }

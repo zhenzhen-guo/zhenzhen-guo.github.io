@@ -1,0 +1,114 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* prevent page scroll, make it feel like a map */
+}
+
+.mouse-trail {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.mouse-trail .trail-dot {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  /* mix-blend-mode: difference; */
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 100;
+  /* 始终在最上层 */
+  mix-blend-mode: difference;
+  font-size: 1rem;
+  /* 与 room-label 屏幕字号一致 */
+}
+
+.menu-panel {
+  position: fixed;
+  top: 60px;
+  left: 40px;
+  /* right: 40px; */
+  width: 60vw;
+  display: block;
+  z-index: 90;
+  /* 在平面图之上，仅次于 header */
+  mix-blend-mode: difference;
+}
+
+.floorplan-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* hide overflowing parts of the floorplan while panning */
+  position: relative;
+}
+
+.floorplan {
+  width: 200%;
+  height: auto;
+  touch-action: none;
+  /* enable custom pinch/drag on touch devices */
+  cursor: grab;
+  transition: transform 0.03s linear;
+  position: relative;
+  z-index: 1;
+  /* 高于 hover-portrait，叠在图片上方 */
+}
+
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  z-index: 80;
+  /* 也浮在平面图之上 */
+  mix-blend-mode: difference;
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: 20px 20px;
+  }
+
+  .menu-panel {
+    left: 20px;
+  }
+
+  .site-footer {
+    padding: 20px 20px;
+  }
+
+  /* 手机端初始平面图按高度自适应，宽度允许超出页面 */
+  .floorplan {
+    height: 70vh;
+    width: 116.666vh;
+    /* 保持1000/600比例 = 1.6666 * 70vh */
+    max-width: none;
+    flex-shrink: 0;
+  }
+}

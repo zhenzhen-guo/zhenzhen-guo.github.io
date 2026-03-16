@@ -496,7 +496,7 @@ function showProjectPreview(targetLink) {
 
     // Special overrides for 4 (Changwon) and 6 (GOKLOK)
     if (targetLink.includes('changwon-atlas')) {
-      previewHtml = `<video src="assets/images/changwon/web.mp4" autoplay loop muted playsinline></video>`;
+      previewHtml = `<video src="assets/images/changwon/web1.mp4" autoplay loop muted playsinline></video>`;
     } else if (targetLink.includes('goklok')) {
       previewHtml = `<img src="assets/images/goklok/logo.png" alt="Preview" />`;
     } else {
@@ -534,8 +534,12 @@ function showProjectPreview(targetLink) {
         customWidth = '60vw';
         customMaxWidth = '600px';
       } else if (targetLink.includes('changwon-atlas')) {
+        // customWidth = '80vw';
+        // customMaxWidth = '800px';
         customWidth = '80vw';
-        customMaxWidth = '800px';
+        customHeight = '40vh';
+        customMaxHeight = '600px';
+        customMaxWidth = '400px';
       } else if (targetLink.includes('street-view-fails')) {
         customWidth = '90vw';
         customMaxWidth = '900px';
@@ -792,4 +796,32 @@ if (footer && dragBar) {
   window.addEventListener('resize', handleResize);
   // Initial check
   handleResize();
+})();
+
+// ===== Scroll Reveal Animation for Images and Videos =====
+(function initScrollReveal() {
+  const mediaElements = document.querySelectorAll('.footer-project-item img, .footer-project-item video');
+
+  mediaElements.forEach(el => {
+    el.classList.add('reveal-on-scroll');
+  });
+
+  const observerOptions = {
+    root: document.querySelector('.footer-scroll-area'),
+    rootMargin: '20px 0px',
+    threshold: 0.05
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  mediaElements.forEach(el => {
+    observer.observe(el);
+  });
 })();

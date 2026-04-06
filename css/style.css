@@ -133,8 +133,8 @@
     color: rgb(0, 0, 0);
     mix-blend-mode: normal !important;
     z-index: 150 !important;
-    border-top: none;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.25);
+    border-top: 1.6px solid rgb(0, 0, 0);
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     /* transition: height 0.3s ease; 会在 JS 释放时添加 */
@@ -281,16 +281,16 @@
   /* List 长方形框按钮 */
   .list-toggle-btn {
     position: absolute;
-    left: calc(70% - 16px);
+    left: calc(70vw - 20px);
     /* 保证原本绝对位置不变 */
     right: 40px;
     /* 最右侧和顶部 menu-toggle（×） 的 40px padding 保持对齐 */
 
     /* 白色底黑色描边 */
     background-color: #F7F7F7;
-    border: none;
+    border: 1.6px solid rgb(0, 0, 0);
     border-radius: 9999px;
-    box-shadow: inset 0 0px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
     mix-blend-mode: normal;
 
     display: flex;
@@ -307,40 +307,27 @@
     font-family: Helvetica, Arial, sans-serif;
   }
 
-  .list-enter-icon {
-    width: 20px;
-    height: 20px;
-    opacity: 0;
-    /* 默认隐藏 */
-    transition: opacity 0.2s ease;
+  .list-open-icon,
+  .list-close-icon {
+    font-size: 1rem;
+    font-family: Helvetica, Arial, sans-serif;
   }
 
-  /* 点击展开状态下的 × 图标 */
+  .list-open-icon {
+    display: inline-block;
+  }
+
   .list-close-icon {
     display: none;
-    font-size: 1.2rem;
-    font-family: Helvetica, Arial, sans-serif;
-    line-height: 20px;
   }
 
-  .list-toggle-btn:hover>.list-enter-icon {
-    opacity: 1;
-    /* hover toggle btn 本身时显示 btn 的 enter icon */
-  }
-
-  /* 展开情况悬浮显示 × 图标并隐藏 enter 图标 */
-  .list-toggle-btn.open>.list-enter-icon {
+  /* 展开情况显示 × 图标并隐藏 + 图标 */
+  .list-toggle-btn.open > .list-open-icon {
     display: none;
   }
 
-  .list-toggle-btn.open>.list-close-icon {
+  .list-toggle-btn.open > .list-close-icon {
     display: inline-block;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  .list-toggle-btn.open:hover>.list-close-icon {
-    opacity: 1;
   }
 
   /* Index Dropdown Menu */
@@ -353,10 +340,12 @@
 
     left: 0;
     right: 0;
-    background-color: #323232;
-    border: none;
+    /* background-color: #323232;
+    border: none; */
+    background-color: #F7F7F7;
+    border: 1.6px solid rgb(0, 0, 0);
     border-radius: 20px;
-    box-shadow: inset 0 0px 5px rgba(0, 0, 0, 0.4);
+    /* box-shadow: inset 0 0px 5px rgba(0, 0, 0, 0.4); */
     /* Slightly stronger shadow for dark bg */
     flex-direction: column;
     max-height: 50vh;
@@ -382,7 +371,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 8px 16px;
-    color: #E6E6E6;
+    color: #000000;
   }
 
   .index-item:hover .list-text,

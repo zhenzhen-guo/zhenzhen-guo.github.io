@@ -15,14 +15,14 @@
 <body>
 
   <!-- 鼠标轨迹层：最底层，不阻挡点击 -->
-  <div class="mouse-trail" id="mouseTrail" aria-hidden="true"></div>
+  <!-- <div class="mouse-trail" id="mouseTrail" aria-hidden="true"></div> -->
 
   <header class="site-header">
     <a class="name" href="index.html" style="color: inherit; text-decoration: none;">Zhenzhen Guo</a>
-    <div class="menu-toggle" style="cursor: pointer;">×</div>
+    <div class="menu-toggle" style="cursor: pointer;" title="about">+</div>
   </header>
 
-  <div class="menu-panel" id="menuPanel">
+  <div class="menu-panel" id="menuPanel" style="display: none;">
     <p class="intro-description" style="text-indent: 0em;">Graphic designer, currently pursuing a Master's degree at
       Aalto University, specializing in the intersection of typography, technology, and visual systems. Through a
       research-driven approach, she explores the evolving relationship between digital culture and visual communication.
@@ -41,9 +41,10 @@
 
     <!-- SVG 平面图作为作品目录 -->
     <!-- 把房间连成一个整体的“建筑”轮廓，更有平面图感 -->
-    <svg viewBox="0 0 1000 600" class="floorplan">
-      <!-- 外墙轮廓（仅作参考线，不可点击） -->
-      <!-- <path class="outline" d="
+    <!--
+<svg viewBox="0 0 1000 600" class="floorplan">
+      <!- - 外墙轮廓（仅作参考线，不可点击） - ->
+      <!- - <path class="outline" d="
         M 80 60
         L 560 60
         L 560 140
@@ -55,7 +56,7 @@
         L 260 360
         L 80 360
         Z
-      " /> -->
+      " /> - ->
 
       <g class="room" data-link="street-view-fails.html">
         <path class="room-hitbox" d="M 80 200 L 320 200 L 320 360 L 80 360 Z" />
@@ -71,7 +72,7 @@
         " />
       </g>
 
-      <!-- Room 2 (top middle): Slice Wardrobe (Hanger) -->
+      <!- - Room 2 (top middle): Slice Wardrobe (Hanger) - ->
       <g class="room" data-link="slice-wardrobe.html">
         <path class="room-hitbox" d="M 200 60 L 560 60 L 560 180 L 320 180 L 320 200 L 200 200 Z" />
         <path class="room-stroke" d="
@@ -86,7 +87,7 @@
         " />
       </g>
 
-      <!-- Room 3 (far right vertical room/pre-reserved): Integrated Design Dimensions -->
+      <!- - Room 3 (far right vertical room/pre-reserved): Integrated Design Dimensions - ->
       <g class="room" data-link="integrated-design-dimensions.html">
         <path class="room-hitbox"
           d="M 620 320 L 880 320 L 880 520 L 620 520 L 620 440 L 680 440 L 680 360 L 620 360 Z" />
@@ -104,7 +105,7 @@
         " />
       </g>
 
-      <!-- Room 4 (top right): Changwon Atlas -->
+      <!- - Room 4 (top right): Changwon Atlas - ->
       <g class="room" data-link="changwon-atlas.html">
         <path class="room-hitbox" d="M 560 140 L 760 140 L 760 320 L 620 320 L 620 220 L 560 220 Z" />
         <path class="room-stroke" d="
@@ -119,7 +120,7 @@
         " />
       </g>
 
-      <!-- Room 5 (top left entrance square/pre-reserved): Pin Stencil -->
+      <!- - Room 5 (top left entrance square/pre-reserved): Pin Stencil - ->
       <g class="room" data-link="pin-stencil.html">
         <path class="room-hitbox" d="M 80 60 L 200 60 L 200 200 L 80 200 Z" />
         <path class="room-stroke" d="
@@ -132,7 +133,7 @@
         " />
       </g>
 
-      <!-- Room 6 (bottom middle): GokLok -->
+      <!- - Room 6 (bottom middle): GokLok - ->
       <g class="room" data-link="goklok.html">
         <path class="room-hitbox"
           d="M 320 280 L 500 280 L 500 360 L 620 360 L 620 440 L 380 440 L 380 520 L 260 520 L 260 360 L 320 360 Z" />
@@ -151,7 +152,7 @@
         " />
       </g>
 
-      <!-- Room 7 (bottom right): Wisdom Tree Cafe -->
+      <!- - Room 7 (bottom right): Wisdom Tree Cafe - ->
       <g class="room" data-link="wisdom-tree-cafe.html">
         <path class="room-hitbox" d="M 380 440 L 620 440 L 620 520 L 380 520 Z" />
         <path class="room-stroke" d="
@@ -162,30 +163,31 @@
         " />
       </g>
 
-      <!-- 数字 -->
+      <!- - 数字 - ->
       <g class="room-labels-layer" aria-hidden="true" style="pointer-events: none;">
-        <!-- SVF -->
+        <!- - SVF - ->
         <text class="room-label" x="200" y="280" text-anchor="middle" dominant-baseline="middle">1</text>
 
-        <!-- Slice Wardrobe -->
+        <!- - Slice Wardrobe - ->
         <text class="room-label" x="358" y="118" text-anchor="middle" dominant-baseline="middle">2</text>
 
-        <!-- Pin Stencil: right edge, center roughly 738, 418 -->
+        <!- - Pin Stencil: right edge, center roughly 738, 418 - ->
         <text class="room-label" x="738" y="418" text-anchor="middle" dominant-baseline="middle">3</text>
 
-        <!-- Changwon Atlas: top right, center roughly 658, 202 -->
+        <!- - Changwon Atlas: top right, center roughly 658, 202 - ->
         <text class="room-label" x="658" y="202" text-anchor="middle" dominant-baseline="middle">4</text>
 
-        <!-- Integrated Design: top left, center roughly 122, 122 -->
+        <!- - Integrated Design: top left, center roughly 122, 122 - ->
         <text class="room-label" x="122" y="122" text-anchor="middle" dominant-baseline="middle">5</text>
 
-        <!-- GokLok -->
+        <!- - GokLok - ->
         <text class="room-label" x="430" y="378" text-anchor="middle" dominant-baseline="middle">6</text>
 
-        <!-- Wisdom Tree Cafe: bottom right, center roughly 500, 480 -->
+        <!- - Wisdom Tree Cafe: bottom right, center roughly 500, 480 - ->
         <text class="room-label" x="500" y="480" text-anchor="middle" dominant-baseline="middle">7</text>
       </g>
     </svg>
+-->
   </main>
 
   <!-- Hover Image Preview Container -->
@@ -196,7 +198,7 @@
     <div class="footer-fixed-bar" id="footerDragBar">
       <div class="list-toggle-btn" id="indexToggleBtn">
         <span class="list-text">Index</span>
-        <img src="assets/icons/enter.svg" class="list-enter-icon" alt="enter" />
+        <span class="list-open-icon">+</span>
         <span class="list-close-icon">×</span>
         <div class="index-dropdown" id="indexDropdown">
           <div class="index-item" data-target-link="street-view-fails.html">
@@ -237,6 +239,7 @@
         <div class="footer-project-item expanded-project" id="project-street-view-fails" style="margin-top: 10px;">
           <span class="list-text project-title-text">Street View Fails (1)(2)(3)</span>
 
+
           <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
             <div class="details-left">
               <p>This project explores the concept of Digital Dérive within the stitched reality of Google Street View.
@@ -255,7 +258,6 @@
               <p>Year | 2025 *bachelor thesis</p>
             </div>
           </div>
-
           <div class="project-images" style="margin-top: 0px; position: relative;">
             <div class="image-left">
               <img src="assets/images/SVF/01.jpg" alt="Street View Fails 01"
@@ -317,6 +319,7 @@
           <br>
           <span class="list-text">Poster for Fashion Future 2060 Workshop</span>
 
+
           <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
             <div class="details-left">
               <p>Fashion Future 2060 is a
@@ -334,7 +337,6 @@
               <p>Year | 2026 *ongoing</p>
             </div>
           </div>
-
           <div class="project-images" style="margin-top: 0px; position: relative;">
             <div class="image-middle">
               <img src="assets/images/hanger/00.png" alt="fashion future 2060"
@@ -366,6 +368,7 @@
             Shanghai Jiao Tong University
           </span>
 
+
           <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
             <div class="details-left">
               <p>The visual identity for the 2025 Graduation Exhibition centers on the concept of design as a process of
@@ -396,7 +399,6 @@
             </div>
 
           </div>
-
           <div class="project-images" style="margin-top: 0px; position: relative;">
 
             <div class="image-left" style="margin-bottom: 10px;">
@@ -429,6 +431,7 @@
         <div class="footer-project-item expanded-project" id="project-changwon-atlas" style="margin-top: 30px;">
           <br>
           <span class="list-text">Changwon Sculpture Atlas</span>
+
 
           <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
             <div class="details-left">
@@ -464,11 +467,10 @@
               <p>Year | 2025, 2026</p>
             </div>
           </div>
-
           <div class="project-images" style="margin-top: 10px; position: relative;">
             <div class="image-middle" style="margin-bottom: 10px;">
-              <video src="assets/images/changwon/changwonshortcut.mp4" autoplay loop muted playsinline alt="Changwon Atlas"
-                style="width: 100%; height: auto; display: block;"></video>
+              <video src="assets/images/changwon/changwonshortcut.mp4" autoplay loop muted playsinline
+                alt="Changwon Atlas" style="width: 100%; height: auto; display: block;"></video>
             </div>
           </div>
 
@@ -491,12 +493,15 @@
           <div class="project-images" style="margin-top: 10px; margin-bottom: 20px; position: relative;">
 
             <div class="image-left">
-              <img src="assets/images/changwon/03.png" alt="exhibition" style="width: 100%; height: auto; display: block">
+              <img src="assets/images/changwon/03.png" alt="exhibition"
+                style="width: 100%; height: auto; display: block">
             </div>
 
             <div class="image-right">
-              <img src="assets/images/changwon/04.png" alt="exhibition" style="width: 100%; height: auto; display: block">
-              <img src="assets/images/changwon/05.png" alt="exhibition" style="width: 100%; height: auto; margin-top: 10px; display: block">
+              <img src="assets/images/changwon/04.png" alt="exhibition"
+                style="width: 100%; height: auto; display: block">
+              <img src="assets/images/changwon/05.png" alt="exhibition"
+                style="width: 100%; height: auto; margin-top: 10px; display: block">
             </div>
           </div>
         </div>
@@ -505,6 +510,7 @@
           <br>
           <span class="list-text">Pin Stencil<br>
             A Lettering Guide from Safety Pins</span>
+
 
           <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
             <div class="details-left">
@@ -524,12 +530,11 @@
               <p>Year | 2026</p>
             </div>
           </div>
-
           <div class="project-images" style="margin-top: 0px; position: relative;">
             <div class="image-middle" style="margin-bottom: 10px;">
               <video src="assets/images/pin/00.mp4" autoplay loop muted playsinline alt="Pin Stencil 00"
                 style="width: 100%; height: auto; display: block;"></video>
-              </div>
+            </div>
           </div>
 
           <div class="project-images" style="margin-top: 10px; margin-bottom: 20px; position: relative;">
@@ -552,6 +557,7 @@
         <div class="footer-project-item expanded-project" id="project-goklok" style="margin-top: 30px;">
           <br>
           <span class="list-text project-title-text">GOKLOK</span>
+
 
           <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
             <div class="details-left">
@@ -577,7 +583,6 @@
               <p>Year | 2023</p>
             </div>
           </div>
-
           <div class="project-images" style="margin-top: 0px; position: relative;">
             <div class="image-middle">
               <img src="assets/images/goklok/00.png" alt="goklok logo"
@@ -627,6 +632,7 @@
           <br>
           <span class="list-text project-title-text">Wisdom Tree Cafe</span>
 
+
           <div class="project-details" style="margin-top: 24px; padding-bottom: 32px;">
             <div class="details-left">
               <p>Adapted from volunteering experience at the Wisdom Tree Disability Service Community into an
@@ -641,7 +647,6 @@
               <p>Year | 2022</p>
             </div>
           </div>
-
           <div class="project-images" style="margin-top: 0px; position: relative;">
             <div class="image-middle" style="margin-bottom: 20px;">
               <video src="assets/images/wisdomtree/promotion.mp4" autoplay loop muted playsinline alt="Wisdom Tree Cafe"

@@ -1,4 +1,5 @@
 // ===== 鼠标轨迹：底层圆形轨迹 =====
+/*
 (function () {
   const trail = document.getElementById('mouseTrail');
   if (!trail) return;
@@ -44,6 +45,7 @@
     }
   });
 })();
+*/
 
 // ===== Header menu toggle & name hover background =====
 const headerToggle = document.querySelector('.menu-toggle');
@@ -79,14 +81,33 @@ function togglePanelDisplay() {
   const isCurrentlyHidden = getComputedStyle(panel).display === 'none';
   if (isCurrentlyHidden) {
     panel.style.display = 'block';
-    if (headerToggle) headerToggle.textContent = '×';
+    if (headerToggle) {
+      headerToggle.textContent = '×';
+      headerToggle.title = 'close';
+    }
+    
+    if (typeof window.enforceFooterMaxHeight === 'function') {
+      window.enforceFooterMaxHeight();
+    }
   } else {
     panel.style.display = 'none';
-    if (headerToggle) headerToggle.textContent = '+';
-  }
-
-  if (typeof window.enforceFooterMaxHeight === 'function') {
-    window.enforceFooterMaxHeight();
+    if (headerToggle) {
+      headerToggle.textContent = '+';
+      headerToggle.title = 'about';
+    }
+    
+    // Automatically move the footer up beneath "Zhenzhen Guo"
+    const footer = document.getElementById('projectsFooter');
+    if (footer) {
+      const MAX_HEIGHT = typeof getFooterMaxHeight === 'function' ? getFooterMaxHeight() : (window.innerHeight - 60);
+      footer.style.transition = 'height 0.3s ease';
+      footer.style.height = MAX_HEIGHT + 'px';
+      
+      const indexDropdown = document.getElementById('indexDropdown');
+      const indexToggleBtn = document.getElementById('indexToggleBtn');
+      if (indexDropdown) indexDropdown.classList.remove('show');
+      if (indexToggleBtn) indexToggleBtn.classList.remove('open');
+    }
   }
 }
 
@@ -200,6 +221,7 @@ if (nameLink) {
 const container = document.querySelector('.floorplan-container');
 const svg = document.querySelector('.floorplan');
 
+/*
 if (container && svg) {
   let scale = 1;
   let translateX = 0;
@@ -483,6 +505,7 @@ if (container && svg) {
   // 不再强行用 JS 重新计算居中，默认保持 scale=1、translate=0
   // 这样由 CSS 的 flex 布局让 SVG 自然居中，避免跑到角落
 }
+*/
 
 // ===== Hover Preview Logic =====
 const hoverPreviewContainer = document.getElementById('hover-preview-container');
@@ -579,7 +602,7 @@ function hideProjectPreview() {
 
 // ===== Menu Item Hover -> Room Highlight =====
 const menuItems = document.querySelectorAll('[data-target-link]');
-if (menuItems.length > 0 && svg) {
+if (menuItems.length > 0) {
   menuItems.forEach((item) => {
     // Add cursor style to indicate interactivity since we attached click handler
     item.style.cursor = 'pointer';
@@ -591,9 +614,11 @@ if (menuItems.length > 0 && svg) {
       showProjectPreview(targetLink);
 
       // Find the corresponding room group
-      const roomGroup = svg.querySelector(`.room[data-link="${targetLink}"]`);
-      if (roomGroup) {
-        roomGroup.classList.add('active');
+      if (svg) {
+        const roomGroup = svg.querySelector(`.room[data-link="${targetLink}"]`);
+        if (roomGroup) {
+          roomGroup.classList.add('active');
+        }
       }
     });
 
@@ -603,9 +628,11 @@ if (menuItems.length > 0 && svg) {
 
       hideProjectPreview();
 
-      const roomGroup = svg.querySelector(`.room[data-link="${targetLink}"]`);
-      if (roomGroup) {
-        roomGroup.classList.remove('active');
+      if (svg) {
+        const roomGroup = svg.querySelector(`.room[data-link="${targetLink}"]`);
+        if (roomGroup) {
+          roomGroup.classList.remove('active');
+        }
       }
     });
 
@@ -619,6 +646,7 @@ if (menuItems.length > 0 && svg) {
   });
 }
 
+/*
 // Add direct hover and click events for the SVG rooms themselves
 const svgRooms = document.querySelectorAll('.room');
 svgRooms.forEach(roomGroup => {
@@ -640,6 +668,7 @@ svgRooms.forEach(roomGroup => {
     hideProjectPreview();
   });
 });
+*/
 
 // ===== Pull-up Footer Logic =====
 const footer = document.getElementById('projectsFooter');
@@ -824,4 +853,18 @@ if (footer && dragBar) {
   mediaElements.forEach(el => {
     observer.observe(el);
   });
+})();
+
+// ===== Initialize Page State =====
+(function initPageState() {
+  const panel = document.getElementById('menuPanel');
+  const footer = document.getElementById('projectsFooter');
+  
+  // If the panel is hidden on load, automatically expand the footer.
+  if (panel && footer && getComputedStyle(panel).display === 'none') {
+    const MAX_HEIGHT = typeof getFooterMaxHeight === 'function' ? getFooterMaxHeight() : (window.innerHeight - 60);
+    // Expand instantly to avoid animation delay during page load
+    footer.style.transition = 'none';
+    footer.style.height = MAX_HEIGHT + 'px';
+  }
 })();

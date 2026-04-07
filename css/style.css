@@ -65,7 +65,7 @@
     text-anchor: middle;
     dominant-baseline: middle;
     mix-blend-mode: normal;
-    font-size: 24px;
+    font-size: 15px;
     font-weight: 500;
   }
 
@@ -186,7 +186,7 @@
   }
 
   .footer-project-item {
-    font-size: 1rem;
+    font-size: 15px;
     font-family: Helvetica, Arial, sans-serif;
     color: rgb(0, 0, 0);
     cursor: pointer;
@@ -210,7 +210,7 @@
     justify-content: space-between;
     width: 100%;
     position: relative;
-    font-size: 1rem;
+    font-size: 15px;
     line-height: 1.4;
   }
 
@@ -269,7 +269,7 @@
 
   .projects-title {
     font-family: 'ABCFavoritLining', Helvetica, Arial, sans-serif;
-    font-size: 1.5em;
+    font-size: 24px;
     margin: 0;
   }
 
@@ -303,13 +303,13 @@
 
   .list-text {
     /* 字号、字体和 Zhenzhen Guo 一致。 Zhenzhen Guo 在 header，字号 1rem（默认 16px），使用默认的 sans-serif */
-    font-size: 1rem;
+    font-size: 15px;
     font-family: Helvetica, Arial, sans-serif;
   }
 
   .list-open-icon,
   .list-close-icon {
-    font-size: 1rem;
+    font-size: 15px;
     font-family: Helvetica, Arial, sans-serif;
   }
 
@@ -322,11 +322,11 @@
   }
 
   /* 展开情况显示 × 图标并隐藏 + 图标 */
-  .list-toggle-btn.open > .list-open-icon {
+  .list-toggle-btn.open>.list-open-icon {
     display: none;
   }
 
-  .list-toggle-btn.open > .list-close-icon {
+  .list-toggle-btn.open>.list-close-icon {
     display: inline-block;
   }
 

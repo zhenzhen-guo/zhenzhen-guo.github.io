@@ -5,6 +5,7 @@
 }
 
 body {
+  font-size: 15px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -41,7 +42,7 @@ body {
   z-index: 100;
   /* 始终在最上层 */
   mix-blend-mode: difference;
-  font-size: 1rem;
+  font-size: 15px;
   /* 与 room-label 屏幕字号一致 */
 }
 

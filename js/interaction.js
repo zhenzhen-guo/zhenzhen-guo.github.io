@@ -85,7 +85,7 @@ function togglePanelDisplay() {
       headerToggle.textContent = '×';
       headerToggle.title = 'close';
     }
-    
+
     if (typeof window.enforceFooterMaxHeight === 'function') {
       window.enforceFooterMaxHeight();
     }
@@ -95,14 +95,14 @@ function togglePanelDisplay() {
       headerToggle.textContent = '+';
       headerToggle.title = 'about';
     }
-    
+
     // Automatically move the footer up beneath "Zhenzhen Guo"
     const footer = document.getElementById('projectsFooter');
     if (footer) {
       const MAX_HEIGHT = typeof getFooterMaxHeight === 'function' ? getFooterMaxHeight() : (window.innerHeight - 60);
       footer.style.transition = 'height 0.3s ease';
       footer.style.height = MAX_HEIGHT + 'px';
-      
+
       const indexDropdown = document.getElementById('indexDropdown');
       const indexToggleBtn = document.getElementById('indexToggleBtn');
       if (indexDropdown) indexDropdown.classList.remove('show');
@@ -859,7 +859,7 @@ if (footer && dragBar) {
 (function initPageState() {
   const panel = document.getElementById('menuPanel');
   const footer = document.getElementById('projectsFooter');
-  
+
   // If the panel is hidden on load, automatically expand the footer.
   if (panel && footer && getComputedStyle(panel).display === 'none') {
     const MAX_HEIGHT = typeof getFooterMaxHeight === 'function' ? getFooterMaxHeight() : (window.innerHeight - 60);

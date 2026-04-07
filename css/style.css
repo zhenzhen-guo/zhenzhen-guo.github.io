@@ -464,3 +464,10 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Custom + cursor on project images */
+  #projectsFooter .expanded-project img,
+  #projectsFooter .expanded-project video {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0cHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIiBmaWxsPSJibGFjayI+KzwvdGV4dD48L3N2Zz4=') 12 12, zoom-in;
+    /* transition: opacity 0.2s ease; */
+  }

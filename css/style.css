@@ -222,16 +222,16 @@
 
   /* Right block absolute to align perfectly with index toggle */
   .expanded-project .details-right,
-  .expanded-project .image-right {
-    position: absolute;
-    /* matches indexToggleBtn absolute alignment based on viewport */
-    left: calc(70vw - 20px - 40px);
-    right: 0;
-    /* Align right to the container padding, matching index button's right: 40px */
-    top: 0;
-    white-space: normal;
-    /* allow wrapping if needed */
-  }
+.expanded-project .image-right {
+  position: absolute;
+  /* matches indexToggleBtn absolute alignment based on viewport */
+  left: calc(70vw - 20px - 40px);
+  /* 删除 right: 0; */
+  width: calc(30vw - 20px); /* 新增：推算出的精准宽度，保证完美对齐 Index 按钮 */
+  top: 0;
+  white-space: normal;
+  /* allow wrapping if needed */
+}
 
   .expanded-project .image-left {
     width: calc(70vw - 70px);
@@ -251,7 +251,8 @@
   .expanded-project .image-right1 {
     position: absolute;
     left: calc(50vw + 5px - 40px);
-    right: 0;
+    /* 删除 right: 0; */
+    width: calc(50vw - 5px - 40px); /* 新增：强制固定宽度，保证左右等宽 */
     top: 0;
     white-space: normal;
   }

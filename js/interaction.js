@@ -768,6 +768,116 @@ if (footer && dragBar) {
   });
 }
 
+// ===== Immersive project scrolling =====
+(function initImmersiveProjectScroll() {
+  const scrollArea = document.querySelector('.footer-scroll-area');
+  const footer = document.getElementById('projectsFooter');
+  const header = document.querySelector('.site-header');
+  const menuPanel = document.getElementById('menuPanel');
+  const indexDropdown = document.getElementById('indexDropdown');
+  const indexToggleBtn = document.getElementById('indexToggleBtn');
+
+  if (!scrollArea || !footer) return;
+
+  const HIDE_AFTER = 80;
+  const DIRECTION_THRESHOLD = 6;
+  let lastScrollTop = scrollArea.scrollTop;
+  let normalFooterHeight = footer.style.height || `${footer.offsetHeight}px`;
+  let isImmersive = false;
+  let ticking = false;
+  let suppressDirectionUntil = 0;
+  let lastTouchY = null;
+
+  function getNormalFooterHeight() {
+    if (menuPanel && getComputedStyle(menuPanel).display !== 'none') {
+      const panelBottom = menuPanel.offsetTop + menuPanel.offsetHeight;
+      return `${Math.max(70, window.innerHeight - panelBottom - 20)}px`;
+    }
+
+    const headerHeight = header ? header.offsetHeight : 60;
+    return `${Math.max(70, window.innerHeight - headerHeight)}px`;
+  }
+
+  function setImmersive(nextState) {
+    if (nextState === isImmersive) return;
+
+    if (nextState) {
+      normalFooterHeight = footer.style.height || getNormalFooterHeight();
+      indexDropdown?.classList.remove('show');
+      indexToggleBtn?.classList.remove('open');
+    } else {
+      footer.style.height = normalFooterHeight;
+    }
+
+    footer.style.transition = 'height 0.25s ease, border-color 0.2s ease';
+    document.body.classList.toggle('content-fullscreen', nextState);
+    isImmersive = nextState;
+    suppressDirectionUntil = performance.now() + 300;
+  }
+
+  scrollArea.addEventListener('scroll', () => {
+    if (ticking) return;
+
+    ticking = true;
+    requestAnimationFrame(() => {
+      const currentScrollTop = scrollArea.scrollTop;
+      const delta = currentScrollTop - lastScrollTop;
+
+      if (currentScrollTop <= 8) {
+        setImmersive(false);
+      } else if (performance.now() >= suppressDirectionUntil) {
+        if (currentScrollTop > HIDE_AFTER && delta > DIRECTION_THRESHOLD) {
+          setImmersive(true);
+        } else if (delta < -DIRECTION_THRESHOLD) {
+          setImmersive(false);
+        }
+      }
+
+      lastScrollTop = currentScrollTop;
+      ticking = false;
+    });
+  }, { passive: true });
+
+  // React immediately to trackpad/mouse-wheel intent. The scroll listener above
+  // remains as a fallback for keyboard and programmatic scrolling.
+  scrollArea.addEventListener('wheel', (event) => {
+    if (event.deltaY > DIRECTION_THRESHOLD && scrollArea.scrollTop > 20) {
+      setImmersive(true);
+    } else if (event.deltaY < -DIRECTION_THRESHOLD) {
+      setImmersive(false);
+    }
+  }, { passive: true });
+
+  scrollArea.addEventListener('touchstart', (event) => {
+    lastTouchY = event.touches[0]?.clientY ?? null;
+  }, { passive: true });
+
+  scrollArea.addEventListener('touchmove', (event) => {
+    const currentTouchY = event.touches[0]?.clientY;
+    if (lastTouchY === null || currentTouchY === undefined) return;
+
+    const deltaY = lastTouchY - currentTouchY;
+    if (deltaY > DIRECTION_THRESHOLD && scrollArea.scrollTop > 20) {
+      setImmersive(true);
+    } else if (deltaY < -DIRECTION_THRESHOLD) {
+      setImmersive(false);
+    }
+
+    lastTouchY = currentTouchY;
+  }, { passive: true });
+
+  scrollArea.addEventListener('touchend', () => {
+    lastTouchY = null;
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (!isImmersive) return;
+
+    normalFooterHeight = getNormalFooterHeight();
+    footer.style.height = normalFooterHeight;
+  });
+})();
+
 // ===== Scrub Video Logic (Desktop Hover, Mobile Autoplay) =====
 (function initScrubVideos() {
   const scrubContainers = document.querySelectorAll('.scrub-video-container');

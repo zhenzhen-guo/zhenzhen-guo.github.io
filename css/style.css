@@ -107,6 +107,33 @@
     overflow: visible;
   }
 
+  .site-header,
+  .menu-panel,
+  .footer-fixed-bar {
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+
+  body.content-fullscreen .site-header,
+  body.content-fullscreen .menu-panel,
+  body.content-fullscreen .footer-fixed-bar {
+    transform: translateY(calc(-100% - 2px));
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  body.content-fullscreen .projects-footer {
+    height: 100vh !important;
+    border-top-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .menu-panel,
+    .footer-fixed-bar {
+      transition: none;
+    }
+  }
+
   .footer-fixed-bar {
     position: absolute;
     top: 0;

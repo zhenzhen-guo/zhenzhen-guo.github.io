@@ -77,7 +77,6 @@ body {
   transition: transform 0.03s linear;
   position: relative;
   z-index: 1;
-  /* 高于 hover-portrait，叠在图片上方 */
 }
 
 .site-footer {

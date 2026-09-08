@@ -47,10 +47,9 @@
 })();
 */
 
-// ===== Header menu toggle & name hover background =====
+// ===== Header menu toggle =====
 const headerToggle = document.querySelector('.menu-toggle');
 const panel = document.getElementById('menuPanel');
-const nameLink = document.querySelector('.name');
 
 // Get the dynamic max height for the footer
 function getFooterMaxHeight() {
@@ -205,16 +204,6 @@ function scrollToProject(link) {
     // Fallback if the element doesn't exist on this page
     window.location.href = link;
   }
-}
-
-// 只在 hover "Zhenzhen Guo" 时显示 gzz.png 背景
-if (nameLink) {
-  nameLink.addEventListener('mouseenter', () => {
-    document.body.classList.add('show-portrait');
-  });
-  nameLink.addEventListener('mouseleave', () => {
-    document.body.classList.remove('show-portrait');
-  });
 }
 
 // ===== Floorplan as interactive map =====

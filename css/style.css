@@ -1,5 +1,5 @@
   body {
-    background: #F7F7F7;
+    background: #FFFFFF;
     color: rgb(255, 255, 255);
     z-index: 0;
     font-family: Helvetica, Arial, sans-serif;
@@ -16,16 +16,7 @@
     text-decoration: none !important;
   }
 
-  /* 人像图：不参与反色，正常显示 */
-  .hover-portrait {
-    mix-blend-mode: normal;
-  }
-
-  .hover-portrait img {
-    mix-blend-mode: normal;
-  }
-
-  /* 平面图整体参与反色，叠在人像或白底上都会反色 */
+  /* 平面图整体参与反色 */
   .floorplan {
     mix-blend-mode: difference;
   }
@@ -99,37 +90,10 @@
     filter: none;
   }
 
-  /* 悬停名字时出现的人像图片，叠在平面图下面、画面 2/3 宽度，居中 */
-  .hover-portrait {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -100;
-    /* 在 floorplan 下方 */
-  }
-
-  .hover-portrait img {
-    /* width: 90vw; 大约 2/3 视口宽度
-    height: auto; */
-    height: 80vh;
-    /* 大约 2/3 视口宽度 */
-    width: auto;
-    display: block;
-  }
-
-  body.show-portrait .hover-portrait {
-    opacity: 1;
-  }
-
   /* Projects 底部单独标题样式 */
   .projects-footer {
     padding: 0;
-    background-color: #F7F7F7;
+    background-color: #FFFFFF;
     color: rgb(0, 0, 0);
     mix-blend-mode: normal !important;
     z-index: 150 !important;
@@ -243,6 +207,48 @@
     flex-shrink: 0;
   }
 
+  /* Reading: preserve the mixed-width Figma composition on wide screens. */
+  .reading-gallery {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+  }
+
+  .reading-gallery img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .reading-gallery img:nth-child(1),
+  .reading-gallery img:nth-child(2),
+  .reading-gallery img:nth-child(9),
+  .reading-gallery img:nth-child(10),
+  .reading-gallery img:nth-child(11),
+  .reading-gallery img:nth-child(12) {
+    grid-column: span 3;
+  }
+
+  .reading-gallery img:nth-child(3),
+  .reading-gallery img:nth-child(4),
+  .reading-gallery img:nth-child(5),
+  .reading-gallery img:nth-child(8) {
+    grid-column: span 2;
+  }
+
+  .reading-gallery img:nth-child(6) {
+    grid-column: span 6;
+  }
+
+  .reading-gallery img:nth-child(7) {
+    grid-column: span 4;
+  }
+
+  .reading-digital-media {
+    margin-top: 30px;
+  }
+
   .expanded-project .image-left1 {
     width: calc(50vw - 5px - 40px);
     flex-shrink: 0;
@@ -288,7 +294,7 @@
     /* 最右侧和顶部 menu-toggle（×） 的 40px padding 保持对齐 */
 
     /* 白色底黑色描边 */
-    background-color: #F7F7F7;
+    background-color: #FFFFFF;
     border: 1.6px solid rgb(0, 0, 0);
     border-radius: 9999px;
     box-shadow: none;
@@ -343,7 +349,7 @@
     right: 0;
     /* background-color: #323232;
     border: none; */
-    background-color: #F7F7F7;
+    background-color: #FFFFFF;
     border: 1.6px solid rgb(0, 0, 0);
     border-radius: 20px;
     /* box-shadow: inset 0 0px 5px rgba(0, 0, 0, 0.4); */
@@ -446,6 +452,16 @@
       height: auto !important;
       margin: 0 !important;
       display: block !important;
+    }
+
+    .reading-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .reading-digital-media {
+      margin-top: 30px !important;
     }
 
     .list-toggle-btn {

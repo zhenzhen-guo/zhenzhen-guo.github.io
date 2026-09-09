@@ -83,6 +83,7 @@ function togglePanelDisplay() {
     if (headerToggle) {
       headerToggle.textContent = '×';
       headerToggle.title = 'close';
+      headerToggle.classList.add('open');
     }
 
     if (typeof window.enforceFooterMaxHeight === 'function') {
@@ -93,6 +94,7 @@ function togglePanelDisplay() {
     if (headerToggle) {
       headerToggle.textContent = '+';
       headerToggle.title = 'about';
+      headerToggle.classList.remove('open');
     }
 
     // Automatically move the footer up beneath "Zhenzhen Guo"

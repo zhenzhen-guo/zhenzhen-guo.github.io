@@ -410,7 +410,7 @@
 
   .index-item:hover .list-text,
   .index-item.active .list-text {
-    text-decoration: underline !important;
+    text-decoration: none !important;
   }
 
   @media (max-width: 768px) {
@@ -509,9 +509,34 @@
     transform: translateY(0);
   }
 
-  /* Custom + cursor on project images */
+  /* Custom + cursor on project images and navigation controls */
   #projectsFooter .expanded-project img,
-  #projectsFooter .expanded-project video {
-    cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0cHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIiBmaWxsPSJibGFjayI+KzwvdGV4dD48L3N2Zz4=') 12 12, zoom-in;
+  #projectsFooter .expanded-project video,
+  .site-header .name,
+  .site-header .menu-toggle,
+  .menu-panel a,
+  .list-toggle-btn,
+  .index-item {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0cHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIiBmaWxsPSJibGFjayI+KzwvdGV4dD48L3N2Zz4=') 12 12, zoom-in !important;
     /* transition: opacity 0.2s ease; */
+  }
+
+  /* When a toggle displays ×, its cursor displays × as well. */
+  .site-header .menu-toggle.open,
+  .list-toggle-btn.open {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0cHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIiBmaWxsPSJibGFjayI+w5c8L3RleHQ+PC9zdmc+') 12 12, zoom-out !important;
+  }
+
+  /* Navigation controls never gain an underline on hover or active state. */
+  .site-header .name:hover,
+  .site-header .menu-toggle:hover,
+  .menu-panel p:hover,
+  .menu-panel a:hover,
+  .list-toggle-btn:hover,
+  .list-toggle-btn:hover *,
+  .index-item:hover,
+  .index-item:hover *,
+  .index-item.active,
+  .index-item.active * {
+    text-decoration: none !important;
   }

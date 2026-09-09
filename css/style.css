@@ -238,9 +238,9 @@
 .expanded-project .image-right {
   position: absolute;
   /* matches indexToggleBtn absolute alignment based on viewport */
-  left: calc(70vw - 20px - 40px);
+  left: calc(70vw - 62.5px);
   /* 删除 right: 0; */
-  width: calc(30vw - 20px); /* 新增：推算出的精准宽度，保证完美对齐 Index 按钮 */
+  width: calc(30vw - 17.5px);
   top: 0;
   white-space: normal;
   /* allow wrapping if needed */
@@ -253,7 +253,7 @@
   }
 
   .expanded-project .image-left {
-    width: calc(70vw - 70px);
+    width: calc(70vw - 67.5px);
     flex-shrink: 0;
   }
 
@@ -266,7 +266,7 @@
   .reading-gallery {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 10px;
+    gap: 5px;
     width: 100%;
   }
 
@@ -305,15 +305,15 @@
   }
 
   .expanded-project .image-left1 {
-    width: calc(50vw - 5px - 40px);
+    width: calc(50vw - 2.5px - 40px);
     flex-shrink: 0;
   }
 
   .expanded-project .image-right1 {
     position: absolute;
-    left: calc(50vw + 5px - 40px);
+    left: calc(50vw + 2.5px - 40px);
     /* 删除 right: 0; */
-    width: calc(50vw - 5px - 40px); /* 新增：强制固定宽度，保证左右等宽 */
+    width: calc(50vw - 2.5px - 40px);
     top: 0;
     white-space: normal;
   }
@@ -467,13 +467,13 @@
     .expanded-project .project-images {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 5px;
       margin-top: 0 !important;
       margin-bottom: 0 !important;
     }
 
     .expanded-project .project-images+.project-images {
-      margin-top: 10px !important;
+      margin-top: 5px !important;
     }
 
     /* 将所有类型的图片栏全宽并取消定位 */
@@ -491,7 +491,7 @@
       margin: 0 !important;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 5px;
     }
 
     .image-row-sjtu-1 .video-left,
@@ -513,7 +513,7 @@
     .reading-gallery {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 5px;
     }
 
     .expanded-project .project-images.reading-digital-media {

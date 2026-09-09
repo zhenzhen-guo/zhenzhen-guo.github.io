@@ -216,6 +216,18 @@
     text-indent: 10ch;
   }
 
+  .menu-panel {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  @media (min-width: 769px) {
+    .menu-panel {
+      width: calc(56vw - 56px);
+    }
+  }
+
   .reading-interlude .details-left a {
     display: block;
     text-indent: 10ch;
@@ -540,6 +552,7 @@
 
   /* When a toggle displays ×, its cursor displays × as well. */
   .site-header .menu-toggle.open,
+  .site-header .name.panel-open,
   .list-toggle-btn.open {
     cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0cHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIiBmaWxsPSJibGFjayI+w5c8L3RleHQ+PC9zdmc+') 12 12, zoom-out !important;
   }

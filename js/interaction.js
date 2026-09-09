@@ -49,7 +49,26 @@
 
 // ===== Header menu toggle =====
 const headerToggle = document.querySelector('.menu-toggle');
+const headerName = document.querySelector('.site-header .name');
 const panel = document.getElementById('menuPanel');
+
+function updateHeaderName() {
+  if (!headerName) return;
+  const panelIsOpen = headerToggle?.classList.contains('open') || false;
+  const showFullName = headerName.matches(':hover') || headerToggle?.matches(':hover') || panelIsOpen;
+  headerName.textContent = showFullName ? 'Zhenzhen Guo' : 'Zhenzhen';
+  headerName.classList.toggle('panel-open', panelIsOpen);
+}
+
+if (headerName) {
+  headerName.addEventListener('mouseenter', updateHeaderName);
+  headerName.addEventListener('mouseleave', updateHeaderName);
+}
+
+if (headerToggle) {
+  headerToggle.addEventListener('mouseenter', updateHeaderName);
+  headerToggle.addEventListener('mouseleave', updateHeaderName);
+}
 
 // Get the dynamic max height for the footer
 function getFooterMaxHeight() {
@@ -84,6 +103,7 @@ function togglePanelDisplay() {
       headerToggle.textContent = '×';
       headerToggle.title = 'close';
       headerToggle.classList.add('open');
+      updateHeaderName();
     }
 
     if (typeof window.enforceFooterMaxHeight === 'function') {
@@ -95,6 +115,7 @@ function togglePanelDisplay() {
       headerToggle.textContent = '+';
       headerToggle.title = 'about';
       headerToggle.classList.remove('open');
+      updateHeaderName();
     }
 
     // Automatically move the footer up beneath "Zhenzhen Guo"
@@ -114,6 +135,13 @@ function togglePanelDisplay() {
 
 if (headerToggle && panel) {
   headerToggle.addEventListener('click', togglePanelDisplay);
+}
+
+if (headerName && panel) {
+  headerName.addEventListener('click', (event) => {
+    event.preventDefault();
+    togglePanelDisplay();
+  });
 }
 
 // Custom logic for new Index Dropdown

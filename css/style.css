@@ -487,8 +487,8 @@
       gap: 10px;
     }
 
-    .reading-digital-media {
-      margin-top: 30px !important;
+    .expanded-project .project-images.reading-digital-media {
+      margin-top: 10px !important;
     }
 
     .list-toggle-btn {

@@ -206,9 +206,19 @@
   }
 
   .expanded-project .details-left {
-    width: calc(70vw - 70px);
-    /* Match .menu-panel but stop 30px before 70vw */
+    width: calc(56vw - 56px);
+    /* 80% of the previous desktop text-column width. */
     flex-shrink: 0;
+  }
+
+  .expanded-project .details-left p,
+  .menu-panel p {
+    text-indent: 10ch;
+  }
+
+  .reading-interlude .details-left a {
+    display: block;
+    text-indent: 10ch;
   }
 
   /* Right block absolute to align perfectly with index toggle */
@@ -223,6 +233,12 @@
   white-space: normal;
   /* allow wrapping if needed */
 }
+
+  /* Align credit text with the text inside the Index button. */
+  .expanded-project .details-right {
+    left: calc(70vw - 44px);
+    width: calc(30vw - 36px);
+  }
 
   .expanded-project .image-left {
     width: calc(70vw - 70px);
@@ -431,7 +447,8 @@
     }
 
     .expanded-project .details-right {
-      left: calc(70vw - 16px - 20px);
+      left: calc(70vw - 24px);
+      width: calc(30vw - 16px);
     }
 
     /* 所有类型的图片区域容器统一垂直排布并撑满宽度 */

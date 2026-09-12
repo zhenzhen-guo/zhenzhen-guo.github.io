@@ -300,8 +300,89 @@
     grid-column: span 4;
   }
 
+  @media (min-width: 769px) {
+    .reading-gallery img:nth-child(8) {
+      align-self: stretch;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
   .reading-digital-media {
     margin-top: 30px;
+  }
+
+  /* SJTU25: Figma composition using the site's existing media spacing. */
+  .sjtu25-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .sjtu25-gallery img,
+  .sjtu25-gallery video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .sjtu25-hero,
+  .sjtu25-halves {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .sjtu25-hero-stack {
+    display: grid;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .sjtu25-hero>video,
+  .sjtu25-hero-stack img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sjtu25-thirds {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .goklok-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  @media (min-width: 769px) {
+    .goklok-equal-row {
+      position: relative;
+    }
+
+    .goklok-equal-row .image-left,
+    .goklok-equal-row .image-left img {
+      margin: 0 !important;
+    }
+
+    .goklok-equal-row .image-right {
+      top: 0;
+      bottom: 0;
+      height: auto;
+      margin: 0 !important;
+    }
+
+    .goklok-equal-row .image-right img {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      object-fit: cover;
+    }
   }
 
   .expanded-project .image-left1 {
@@ -511,6 +592,21 @@
     }
 
     .reading-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .sjtu25-hero,
+    .sjtu25-hero-stack,
+    .sjtu25-thirds,
+    .sjtu25-halves {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .goklok-equal-row {
       display: flex;
       flex-direction: column;
       gap: 5px;

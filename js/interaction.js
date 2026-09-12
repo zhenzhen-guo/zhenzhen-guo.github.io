@@ -529,6 +529,14 @@ if (container && svg) {
 // ===== Hover Preview Logic =====
 const hoverPreviewContainer = document.getElementById('hover-preview-container');
 
+const projectPreviewImages = {
+  'slice-wardrobe': 'assets/images/hanger/09.png',
+  'integrated-design-dimensions': 'assets/images/SJTU25/07.JPG',
+  'changwon-atlas': 'assets/images/changwon/03.png',
+  'pin-stencil': 'assets/images/pin/02.png',
+  'goklok': 'assets/images/goklok/04.png'
+};
+
 function showProjectPreview(targetLink) {
   if (!hoverPreviewContainer || !targetLink || targetLink === '#') return;
   const projectId = 'project-' + targetLink.replace('.html', '');
@@ -536,11 +544,11 @@ function showProjectPreview(targetLink) {
   if (projectElement) {
     let previewHtml = '';
 
-    // Special overrides for 4 (Changwon) and 6 (GOKLOK)
-    if (targetLink.includes('changwon-atlas')) {
-      previewHtml = `<video src="assets/images/changwon/web1.mp4" autoplay loop muted playsinline></video>`;
-    } else if (targetLink.includes('goklok')) {
-      previewHtml = `<img src="assets/images/goklok/logo.png" alt="Preview" />`;
+    const previewKey = Object.keys(projectPreviewImages)
+      .find((key) => targetLink.includes(key));
+
+    if (previewKey) {
+      previewHtml = `<img src="${projectPreviewImages[previewKey]}" alt="Preview" />`;
     } else {
       // Default: find the first image or video in this project
       const mediaItem = projectElement.querySelector('img, video');
@@ -563,7 +571,6 @@ function showProjectPreview(targetLink) {
       // Others go to 1.5x
       let customWidth = '50vw'; // Default ~1.5x of the original 40vw base
       let customMaxWidth = '500px';
-      let customHeight = '50vh';
       let customMaxHeight = '500px';
 
       if (targetLink.includes('pin-stencil')) {
@@ -576,12 +583,8 @@ function showProjectPreview(targetLink) {
         customWidth = '60vw';
         customMaxWidth = '600px';
       } else if (targetLink.includes('changwon-atlas')) {
-        // customWidth = '80vw';
-        // customMaxWidth = '800px';
         customWidth = '80vw';
-        customHeight = '40vh';
-        customMaxHeight = '600px';
-        customMaxWidth = '400px';
+        customMaxWidth = '800px';
       } else if (targetLink.includes('street-view-fails')) {
         customWidth = '90vw';
         customMaxWidth = '900px';
@@ -589,21 +592,15 @@ function showProjectPreview(targetLink) {
         customWidth = '90vw';
         customMaxWidth = '900px';
       } else if (targetLink.includes('integrated-design-dimensions')) {
-        customHeight = '80vh';
-        customMaxHeight = '800px';
-        customMaxWidth = '450px';
+        customWidth = '60vw';
+        customMaxWidth = '700px';
       }
 
-      if (targetLink.includes('integrated-design-dimensions')) {
-        hoverPreviewContainer.style.height = customHeight;
-        hoverPreviewContainer.style.maxHeight = customMaxHeight;
-        hoverPreviewContainer.style.maxWidth = customMaxWidth;
-        hoverPreviewContainer.style.opacity = '1';
-      } else {
-        hoverPreviewContainer.style.width = customWidth;
-        hoverPreviewContainer.style.maxWidth = customMaxWidth;
-        hoverPreviewContainer.style.opacity = '1';
-      }
+      hoverPreviewContainer.style.width = customWidth;
+      hoverPreviewContainer.style.maxWidth = customMaxWidth;
+      hoverPreviewContainer.style.height = 'auto';
+      hoverPreviewContainer.style.maxHeight = customMaxHeight;
+      hoverPreviewContainer.style.opacity = '1';
 
       // Calculate the vertical center of the available space above the collapsed footer (70px height)
       const availableHeight = window.innerHeight - 70;

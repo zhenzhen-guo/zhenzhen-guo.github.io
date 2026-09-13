@@ -531,10 +531,11 @@ const hoverPreviewContainer = document.getElementById('hover-preview-container')
 
 const projectPreviewImages = {
   'slice-wardrobe': 'assets/images/hanger/09.png',
+  'clothing-finder': 'assets/images/hanger/06.png',
   'integrated-design-dimensions': 'assets/images/SJTU25/07.JPG',
   'changwon-atlas': 'assets/images/changwon/03.png',
-  'pin-stencil': 'assets/images/pin/02.png',
-  'goklok': 'assets/images/goklok/04.png'
+  'pin-stencil': 'assets/images/pin/02.png'
+  // Temporarily hidden: 'goklok': 'assets/images/goklok/04.png'
 };
 
 function showProjectPreview(targetLink) {

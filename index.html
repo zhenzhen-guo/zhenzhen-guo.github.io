@@ -127,7 +127,7 @@
       </g>
 
       <!- - Room 6 (bottom middle): GokLok - ->
-      <g class="room" data-link="goklok.html">
+      <g class="room" data-link="goklok.html" data-hidden-project="goklok" style="display: none;">
         <path class="room-hitbox"
           d="M 320 280 L 500 280 L 500 360 L 620 360 L 620 440 L 380 440 L 380 520 L 260 520 L 260 360 L 320 360 Z" />
         <path class="room-stroke" d="
@@ -146,7 +146,7 @@
       </g>
 
       <!- - Room 7 (bottom right): Wisdom Tree Cafe - ->
-      <g class="room" data-link="wisdom-tree-cafe.html">
+      <g class="room" data-link="wisdom-tree-cafe.html" data-hidden-project="wisdom-tree-cafe" style="display: none;">
         <path class="room-hitbox" d="M 380 440 L 620 440 L 620 520 L 380 520 Z" />
         <path class="room-stroke" d="
           M 395 440 L 605 440
@@ -174,10 +174,12 @@
         <text class="room-label" x="122" y="122" text-anchor="middle" dominant-baseline="middle">5</text>
 
         <!- - GokLok - ->
-        <text class="room-label" x="430" y="378" text-anchor="middle" dominant-baseline="middle">6</text>
+        <text class="room-label" x="430" y="378" text-anchor="middle" dominant-baseline="middle"
+          data-hidden-project="goklok" style="display: none;">6</text>
 
         <!- - Wisdom Tree Cafe: bottom right, center roughly 500, 480 - ->
-        <text class="room-label" x="500" y="480" text-anchor="middle" dominant-baseline="middle">7</text>
+        <text class="room-label" x="500" y="480" text-anchor="middle" dominant-baseline="middle"
+          data-hidden-project="wisdom-tree-cafe" style="display: none;">7</text>
       </g>
     </svg>
 -->
@@ -197,11 +199,14 @@
           <div class="index-item" data-target-link="street-view-fails.html">
             <span class="list-text">Street View Fails</span>
           </div>
+          <div class="index-item" data-target-link="reading.html">
+            <span class="list-text">SJTU Grad Show 26</span>
+          </div>
           <div class="index-item" data-target-link="slice-wardrobe.html">
             <span class="list-text">Hanger / Slice Wardrobe</span>
           </div>
-          <div class="index-item" data-target-link="reading.html">
-            <span class="list-text">SJTU Grad Show 26</span>
+          <div class="index-item" data-target-link="clothing-finder.html">
+            <span class="list-text">Clothing Finder</span>
           </div>
           <div class="index-item" data-target-link="integrated-design-dimensions.html">
             <span class="list-text">SJTU Grad Show 25</span>
@@ -212,12 +217,16 @@
           <div class="index-item" data-target-link="pin-stencil.html">
             <span class="list-text">Pin Stencil</span>
           </div>
+          <!-- Temporarily hidden: GOKLOK
           <div class="index-item" data-target-link="goklok.html">
             <span class="list-text">GOKLOK</span>
           </div>
+          -->
+          <!-- Temporarily hidden: Wisdom Tree Cafe
           <div class="index-item" data-target-link="wisdom-tree-cafe.html">
             <span class="list-text">Wisdom Tree Cafe</span>
           </div>
+          -->
         </div>
       </div>
     </div>
@@ -232,7 +241,8 @@
       <!-- 隐藏的作品列表（上拉时显示出来） -->
       <div class="footer-project-list" id="footerProjectList">
 
-        <div class="footer-project-item expanded-project" id="project-street-view-fails" style="margin-top: 10px;">
+        <div class="footer-project-item expanded-project" id="project-street-view-fails"
+          style="margin-top: 10px; order: 1;">
           <span class="list-text project-title-text">Street View Fails (1)(2)(3)</span>
 
 
@@ -306,7 +316,8 @@
           </div>
         </div>
 
-        <div class="footer-project-item expanded-project" id="project-slice-wardrobe" style="margin-top: 30px;">
+        <div class="footer-project-item expanded-project" id="project-slice-wardrobe"
+          style="margin-top: 30px; order: 3;">
           <br>
           <!-- <span class="list-text">Slice Wardrobe</span> -->
           <span class="list-text">'Hanger' typeface</span>
@@ -359,7 +370,8 @@
             </div>
           </div>
 
-          <div class="project-details" style="margin-top: 44px; padding-bottom: 32px;">
+          <div class="project-details" id="project-clothing-finder"
+            style="margin-top: 44px; padding-bottom: 32px;">
             <div class="details-left">
               <p>‘Clothing Finder’ is a garment-sorting model that deconstructs a complex wardrobe into perceptible modules. Serving as a "physical index" for specific clothing categories, it helps individuals visualize their wardrobes, transforming daily organization into a systematic logic game to maximize the wear frequency of every single item.</p>
               </div>
@@ -385,7 +397,7 @@
         </div>
 
         <div class="footer-project-item expanded-project" id="project-reading"
-          style="margin-top: 30px;">
+          style="margin-top: 30px; order: 2;">
           <br>
           <span class="list-text">Reading...<br>
             Shanghai Jiao Tong University<br>
@@ -449,7 +461,7 @@
         </div>
 
         <div class="footer-project-item expanded-project" id="project-integrated-design-dimensions"
-          style="margin-top: 30px;">
+          style="margin-top: 30px; order: 4;">
           <br>
           <span class="list-text">Integrated Design Dimensions<br>
             Shanghai Jiao Tong University<br>
@@ -519,7 +531,8 @@
 
         </div>
 
-        <div class="footer-project-item expanded-project" id="project-changwon-atlas" style="margin-top: 30px;">
+        <div class="footer-project-item expanded-project" id="project-changwon-atlas"
+          style="margin-top: 30px; order: 5;">
           <br>
           <span class="list-text">Changwon Sculpture Atlas</span>
 
@@ -597,7 +610,8 @@
           </div>
         </div>
 
-        <div class="footer-project-item expanded-project" id="project-pin-stencil" style="margin-top: 30px;">
+        <div class="footer-project-item expanded-project" id="project-pin-stencil"
+          style="margin-top: 30px; order: 6;">
           <br>
           <span class="list-text">Pin Stencil<br>
             A Lettering Guide from Safety Pins</span>
@@ -645,6 +659,8 @@
           </div>
         </div>
 
+        <!-- Temporarily hidden project: remove the surrounding template to restore GOKLOK. -->
+        <template data-hidden-project="goklok">
         <div class="footer-project-item expanded-project" id="project-goklok" style="margin-top: 30px;">
           <br>
           <span class="list-text project-title-text">GOKLOK</span>
@@ -719,7 +735,10 @@
             </div>
           </div>
         </div>
+        </template>
 
+        <!-- Temporarily hidden project: remove the surrounding template to restore Wisdom Tree Cafe. -->
+        <template data-hidden-project="wisdom-tree-cafe">
         <div class="footer-project-item expanded-project" id="project-wisdom-tree-cafe" style="margin-top: 30px;">
           <br>
           <span class="list-text project-title-text">Wisdom Tree Cafe</span>
@@ -746,6 +765,7 @@
             </div>
           </div>
         </div>
+        </template>
 
       </div>
     </div>

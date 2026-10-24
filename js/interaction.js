@@ -906,6 +906,63 @@ if (footer && dragBar) {
   });
 })();
 
+// ===== Deferred Video Loading =====
+// Keep each video's source available for previews/lightbox, but prevent the browser
+// from downloading and playing every project video as soon as the page opens.
+(function initDeferredVideos() {
+  const videos = document.querySelectorAll('.footer-project-item video');
+  if (!videos.length) return;
+
+  const scrollRoot = document.querySelector('.footer-scroll-area');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function loadAndPlay(video) {
+    if (!video.dataset.mediaLoaded) {
+      video.preload = 'auto';
+      video.load();
+      video.dataset.mediaLoaded = 'true';
+    }
+
+    const isDesktopScrubVideo = video.closest('.scrub-video-container') && window.innerWidth > 768;
+    if (!prefersReducedMotion && !isDesktopScrubVideo) {
+      video.play().catch(() => { });
+    }
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    videos.forEach(loadAndPlay);
+    return;
+  }
+
+  const mediaGroups = [...new Set([...videos].map((video) => (
+    video.closest('.project-images') || video
+  )))];
+
+  const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const groupVideos = entry.target.matches('video')
+        ? [entry.target]
+        : entry.target.querySelectorAll('video');
+
+      if (entry.isIntersecting) {
+        groupVideos.forEach((video) => {
+          loadAndPlay(video);
+          video.classList.add('is-visible');
+        });
+      } else {
+        groupVideos.forEach((video) => video.pause());
+      }
+    });
+  }, {
+    root: scrollRoot,
+    // Begin loading shortly before the video reaches the visible project area.
+    rootMargin: '600px 0px',
+    threshold: 0.01
+  });
+
+  mediaGroups.forEach((group) => videoObserver.observe(group));
+})();
+
 // ===== Scrub Video Logic (Desktop Hover, Mobile Autoplay) =====
 (function initScrubVideos() {
   const scrubContainers = document.querySelectorAll('.scrub-video-container');
@@ -920,7 +977,9 @@ if (footer && dragBar) {
       if (isMobile) {
         // Mobile: Autoplay, remove scrubbing
         video.autoplay = true;
-        video.play().catch(() => { }); // catch autoplay restrictions if any
+        if (video.dataset.mediaLoaded) {
+          video.play().catch(() => { }); // catch autoplay restrictions if any
+        }
         container.style.cursor = 'default';
         container.onmousemove = null;
         container.onmouseleave = null;

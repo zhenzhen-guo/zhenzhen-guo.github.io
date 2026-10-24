@@ -312,6 +312,20 @@
     margin-top: 30px;
   }
 
+  /* BC Threshold: two equal-width videos on desktop, stacked on narrow screens. */
+  .bc-threshold-media {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+    width: 100%;
+  }
+
+  .bc-threshold-media video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   /* SJTU25: Figma composition using the site's existing media spacing. */
   .sjtu25-gallery {
     display: flex;
@@ -660,6 +674,12 @@
 
     .expanded-project .project-images.reading-digital-media {
       margin-top: 10px !important;
+    }
+
+    .expanded-project .project-images.bc-threshold-media {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
 
     .list-toggle-btn {

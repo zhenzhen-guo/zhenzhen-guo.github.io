@@ -914,7 +914,7 @@ if (footer && dragBar) {
   if (!videos.length) return;
 
   const scrollRoot = document.querySelector('.footer-scroll-area');
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobileViewport = () => window.innerWidth <= 768;
 
   function prepareForAutoplay(video) {
     // Safari checks both the DOM attributes and the media properties.
@@ -923,12 +923,16 @@ if (footer && dragBar) {
     video.playsInline = true;
     video.setAttribute('muted', '');
     video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
   }
 
   function loadVideo(video) {
     prepareForAutoplay(video);
 
     if (!video.dataset.mediaLoaded) {
+      if (video.dataset.src && !video.getAttribute('src')) {
+        video.setAttribute('src', video.dataset.src);
+      }
       video.preload = 'auto';
       video.load();
       video.dataset.mediaLoaded = 'true';
@@ -938,7 +942,7 @@ if (footer && dragBar) {
   function playVisibleVideo(video) {
     loadVideo(video);
     const isDesktopScrubVideo = video.closest('.scrub-video-container') && window.innerWidth > 768;
-    if (prefersReducedMotion || isDesktopScrubVideo || !video.classList.contains('is-in-playback-zone')) return;
+    if (isDesktopScrubVideo || !video.classList.contains('is-in-playback-zone')) return;
 
     // Adding autoplay only when the video is actually visible prevents the whole
     // page from downloading at once, while allowing muted inline autoplay on iOS.
@@ -979,7 +983,7 @@ if (footer && dragBar) {
       }
     });
   }, {
-    root: scrollRoot,
+    root: isMobileViewport() ? null : scrollRoot,
     // Download shortly before arrival, but do not start playback offscreen.
     rootMargin: '600px 0px',
     threshold: 0.01
@@ -994,18 +998,55 @@ if (footer && dragBar) {
         playVisibleVideo(video);
       } else {
         video.classList.remove('is-in-playback-zone');
-        video.removeAttribute('autoplay');
+        if (!isMobileViewport()) video.removeAttribute('autoplay');
         video.pause();
       }
     });
   }, {
-    root: scrollRoot,
+    // Safari is more reliable when mobile playback is observed against the
+    // viewport instead of a dynamically resized overflow container.
+    root: isMobileViewport() ? null : scrollRoot,
     rootMargin: '0px',
     threshold: 0.01
   });
 
   mediaGroups.forEach((group) => preloadObserver.observe(group));
   videos.forEach((video) => playbackObserver.observe(video));
+
+  // IntersectionObserver with a nested scrolling element is unreliable in
+  // some iOS Safari versions. Check actual viewport visibility on every mobile
+  // scroll as a fallback, so arriving videos are always asked to play again.
+  let mobileVisibilityFrame = null;
+
+  function syncMobileVideoPlayback() {
+    mobileVisibilityFrame = null;
+    if (!isMobileViewport()) return;
+
+    videos.forEach((video) => {
+      const rect = video.getBoundingClientRect();
+      const isVisible = rect.bottom > 0
+        && rect.top < window.innerHeight
+        && rect.right > 0
+        && rect.left < window.innerWidth;
+
+      if (isVisible) {
+        video.classList.add('is-in-playback-zone');
+        playVisibleVideo(video);
+      } else {
+        video.classList.remove('is-in-playback-zone');
+        video.pause();
+      }
+    });
+  }
+
+  function scheduleMobileVisibilityCheck() {
+    if (mobileVisibilityFrame !== null) return;
+    mobileVisibilityFrame = window.requestAnimationFrame(syncMobileVideoPlayback);
+  }
+
+  window.addEventListener('scroll', scheduleMobileVisibilityCheck, { passive: true, capture: true });
+  window.addEventListener('resize', scheduleMobileVisibilityCheck, { passive: true });
+  scheduleMobileVisibilityCheck();
 
   // Mobile Safari can pause media when the tab/app is backgrounded. Resume only
   // the videos that are still visible when the page becomes active again.
@@ -1035,7 +1076,7 @@ if (footer && dragBar) {
       if (isMobile) {
         // Mobile: Autoplay, remove scrubbing
         const isVisible = video.classList.contains('is-in-playback-zone');
-        video.autoplay = isVisible;
+        video.autoplay = true;
         if (isVisible && video.dataset.mediaLoaded) {
           video.play().catch(() => { }); // catch autoplay restrictions if any
         }

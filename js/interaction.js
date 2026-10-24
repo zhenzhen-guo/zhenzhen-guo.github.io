@@ -916,21 +916,51 @@ if (footer && dragBar) {
   const scrollRoot = document.querySelector('.footer-scroll-area');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function loadAndPlay(video) {
+  function prepareForAutoplay(video) {
+    // Safari checks both the DOM attributes and the media properties.
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+  }
+
+  function loadVideo(video) {
+    prepareForAutoplay(video);
+
     if (!video.dataset.mediaLoaded) {
       video.preload = 'auto';
       video.load();
       video.dataset.mediaLoaded = 'true';
     }
+  }
 
+  function playVisibleVideo(video) {
+    loadVideo(video);
     const isDesktopScrubVideo = video.closest('.scrub-video-container') && window.innerWidth > 768;
-    if (!prefersReducedMotion && !isDesktopScrubVideo) {
+    if (prefersReducedMotion || isDesktopScrubVideo || !video.classList.contains('is-in-playback-zone')) return;
+
+    // Adding autoplay only when the video is actually visible prevents the whole
+    // page from downloading at once, while allowing muted inline autoplay on iOS.
+    video.setAttribute('autoplay', '');
+
+    const tryPlay = () => {
+      if (!video.classList.contains('is-in-playback-zone')) return;
       video.play().catch(() => { });
+    };
+
+    if (video.readyState >= 2) {
+      tryPlay();
+    } else {
+      video.addEventListener('canplay', tryPlay, { once: true });
     }
   }
 
   if (!('IntersectionObserver' in window)) {
-    videos.forEach(loadAndPlay);
+    videos.forEach((video) => {
+      video.classList.add('is-in-playback-zone');
+      playVisibleVideo(video);
+    });
     return;
   }
 
@@ -938,29 +968,57 @@ if (footer && dragBar) {
     video.closest('.project-images') || video
   )))];
 
-  const videoObserver = new IntersectionObserver((entries) => {
+  const preloadObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       const groupVideos = entry.target.matches('video')
         ? [entry.target]
         : entry.target.querySelectorAll('video');
 
       if (entry.isIntersecting) {
-        groupVideos.forEach((video) => {
-          loadAndPlay(video);
-          video.classList.add('is-visible');
-        });
-      } else {
-        groupVideos.forEach((video) => video.pause());
+        groupVideos.forEach(loadVideo);
       }
     });
   }, {
     root: scrollRoot,
-    // Begin loading shortly before the video reaches the visible project area.
+    // Download shortly before arrival, but do not start playback offscreen.
     rootMargin: '600px 0px',
     threshold: 0.01
   });
 
-  mediaGroups.forEach((group) => videoObserver.observe(group));
+  const playbackObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target;
+
+      if (entry.isIntersecting) {
+        video.classList.add('is-in-playback-zone');
+        playVisibleVideo(video);
+      } else {
+        video.classList.remove('is-in-playback-zone');
+        video.removeAttribute('autoplay');
+        video.pause();
+      }
+    });
+  }, {
+    root: scrollRoot,
+    rootMargin: '0px',
+    threshold: 0.01
+  });
+
+  mediaGroups.forEach((group) => preloadObserver.observe(group));
+  videos.forEach((video) => playbackObserver.observe(video));
+
+  // Mobile Safari can pause media when the tab/app is backgrounded. Resume only
+  // the videos that are still visible when the page becomes active again.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      videos.forEach((video) => video.pause());
+      return;
+    }
+
+    videos.forEach((video) => {
+      if (video.classList.contains('is-in-playback-zone')) playVisibleVideo(video);
+    });
+  });
 })();
 
 // ===== Scrub Video Logic (Desktop Hover, Mobile Autoplay) =====
@@ -976,8 +1034,9 @@ if (footer && dragBar) {
 
       if (isMobile) {
         // Mobile: Autoplay, remove scrubbing
-        video.autoplay = true;
-        if (video.dataset.mediaLoaded) {
+        const isVisible = video.classList.contains('is-in-playback-zone');
+        video.autoplay = isVisible;
+        if (isVisible && video.dataset.mediaLoaded) {
           video.play().catch(() => { }); // catch autoplay restrictions if any
         }
         container.style.cursor = 'default';

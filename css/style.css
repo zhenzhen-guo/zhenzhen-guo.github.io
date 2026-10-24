@@ -262,6 +262,43 @@
     flex-shrink: 0;
   }
 
+  /* Street View Fails: crop the large left image to the combined height of
+     the two naturally sized images on the right, including their gap. */
+  @media (min-width: 769px) {
+    .street-hero-row {
+      display: grid;
+      grid-template-columns: calc(70vw - 67.5px) calc(30vw - 17.5px);
+      column-gap: 5px;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .street-hero-row .image-left {
+      position: relative;
+      width: auto;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .street-hero-row .image-left img {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .street-hero-row .image-right {
+      position: static;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: auto;
+      min-width: 0;
+    }
+  }
+
   /* Reading: preserve the mixed-width Figma composition on wide screens. */
   .reading-gallery {
     display: grid;
@@ -649,6 +686,12 @@
       height: auto !important;
       margin: 0 !important;
       display: block !important;
+    }
+
+    .street-hero-row .image-left img {
+      position: static !important;
+      inset: auto !important;
+      object-fit: contain;
     }
 
     .reading-gallery {

@@ -1113,6 +1113,63 @@ if (footer && dragBar) {
   handleResize();
 })();
 
+// ===== BC Threshold Still Carousel (Phone / Portrait Only) =====
+(function initBCThresholdStillCarousel() {
+  const gallery = document.querySelector('.bc-threshold-stills');
+  if (!gallery) return;
+
+  const images = [...gallery.querySelectorAll('img')];
+  if (images.length < 2) return;
+
+  const portraitLayout = window.matchMedia('(max-width: 768px), (orientation: portrait)');
+  let activeIndex = 0;
+  let rotationTimer = null;
+
+  function showImage(index) {
+    activeIndex = index;
+    images.forEach((image, imageIndex) => {
+      const isActive = imageIndex === activeIndex;
+      image.classList.toggle('is-carousel-active', isActive);
+      image.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+    });
+  }
+
+  function stopRotation() {
+    if (rotationTimer !== null) {
+      window.clearInterval(rotationTimer);
+      rotationTimer = null;
+    }
+  }
+
+  function syncCarouselMode() {
+    stopRotation();
+
+    if (!portraitLayout.matches) {
+      images.forEach((image) => {
+        image.classList.remove('is-carousel-active');
+        image.removeAttribute('aria-hidden');
+      });
+      return;
+    }
+
+    showImage(activeIndex);
+    if (!document.hidden) {
+      rotationTimer = window.setInterval(() => {
+        showImage((activeIndex + 1) % images.length);
+      }, 1000);
+    }
+  }
+
+  if (portraitLayout.addEventListener) {
+    portraitLayout.addEventListener('change', syncCarouselMode);
+  } else {
+    portraitLayout.addListener(syncCarouselMode);
+  }
+
+  document.addEventListener('visibilitychange', syncCarouselMode);
+  syncCarouselMode();
+})();
+
 // ===== Scroll Reveal Animation for Images and Videos =====
 (function initScrollReveal() {
   const mediaElements = document.querySelectorAll('.footer-project-item img, .footer-project-item video');

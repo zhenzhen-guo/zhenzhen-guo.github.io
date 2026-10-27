@@ -363,6 +363,20 @@
     height: auto;
   }
 
+  .bc-threshold-stills {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .bc-threshold-stills img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   /* SJTU25: Figma composition using the site's existing media spacing. */
   .sjtu25-gallery {
     display: flex;
@@ -723,6 +737,13 @@
       display: flex;
       flex-direction: column;
       gap: 5px;
+    }
+
+    .expanded-project .project-images.bc-threshold-stills {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+      margin-top: 5px !important;
     }
 
     .list-toggle-btn {

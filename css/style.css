@@ -377,6 +377,21 @@
     height: auto;
   }
 
+  .bc-threshold-stills .bc-threshold-carousel-only {
+    display: none;
+  }
+
+  .bc-threshold-wide-still {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .bc-threshold-wide-still img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   /* SJTU25: Figma composition using the site's existing media spacing. */
   .sjtu25-gallery {
     display: flex;
@@ -744,8 +759,12 @@
     }
   }
 
-  /* BC Threshold: one full-width, direct-cut carousel on phones/portrait screens. */
-  @media (max-width: 768px), (orientation: portrait) {
+  /* BC Threshold: use the site's standard narrow-layout breakpoint. */
+  @media (max-width: 768px) {
+    .expanded-project .project-images.bc-threshold-wide-still {
+      display: none !important;
+    }
+
     .expanded-project .project-images.bc-threshold-stills {
       position: relative;
       display: block;

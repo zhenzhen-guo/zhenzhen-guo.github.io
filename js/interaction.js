@@ -1113,7 +1113,7 @@ if (footer && dragBar) {
   handleResize();
 })();
 
-// ===== BC Threshold Still Carousel (Phone / Portrait Only) =====
+// ===== BC Threshold Still Carousel (Standard Narrow Layout Only) =====
 (function initBCThresholdStillCarousel() {
   const gallery = document.querySelector('.bc-threshold-stills');
   if (!gallery) return;
@@ -1121,7 +1121,7 @@ if (footer && dragBar) {
   const images = [...gallery.querySelectorAll('img')];
   if (images.length < 2) return;
 
-  const portraitLayout = window.matchMedia('(max-width: 768px), (orientation: portrait)');
+  const portraitLayout = window.matchMedia('(max-width: 768px)');
   let activeIndex = 0;
   let rotationTimer = null;
 
@@ -1156,7 +1156,7 @@ if (footer && dragBar) {
     if (!document.hidden) {
       rotationTimer = window.setInterval(() => {
         showImage((activeIndex + 1) % images.length);
-      }, 1000);
+      }, 800);
     }
   }
 

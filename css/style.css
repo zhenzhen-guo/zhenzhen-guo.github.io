@@ -256,8 +256,8 @@
   }
 
   .smooth-rough-media {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 5px;
     width: 100%;
   }
@@ -716,6 +716,10 @@
 
     .expanded-project .project-images+.project-images {
       margin-top: 5px !important;
+    }
+
+    .smooth-rough-media {
+      grid-template-columns: 1fr;
     }
 
     /* 将所有类型的图片栏全宽并取消定位 */

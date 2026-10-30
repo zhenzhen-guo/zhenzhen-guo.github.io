@@ -233,6 +233,41 @@
     text-indent: 10ch;
   }
 
+  .smooth-rough-link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    margin-left: 0;
+    padding: 6px 8px;
+    border: 1.6px solid #000;
+    border-radius: 0;
+    color: #000;
+    background: #fff;
+    text-decoration: none !important;
+    text-indent: 0;
+    line-height: 1;
+  }
+
+  .smooth-rough-link-button:hover {
+    color: #000;
+    background: #fff;
+    text-decoration: none !important;
+  }
+
+  .smooth-rough-media {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .smooth-rough-media-hero {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   /* Right block absolute to align perfectly with index toggle */
   .expanded-project .details-right,
 .expanded-project .image-right {
@@ -811,6 +846,7 @@
   .site-header .name,
   .site-header .menu-toggle,
   .menu-panel a,
+  .smooth-rough-link-button,
   .list-toggle-btn,
   .index-item {
     cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0cHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIiBmaWxsPSJibGFjayI+KzwvdGV4dD48L3N2Zz4=') 12 12, zoom-in !important;

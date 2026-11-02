@@ -919,6 +919,14 @@ if (footer && dragBar) {
 
   const scrollRoot = document.querySelector('.footer-scroll-area');
   const isMobileViewport = () => window.innerWidth <= 768;
+  const atlasOpeningVideos = [...document.querySelectorAll(
+    '#project-changwon-atlas .atlas-video-sequence video:nth-child(-n + 3)'
+  )];
+  const releaseTimers = new WeakMap();
+  let atlasCycleTimer = null;
+  let atlasCycleGeneration = 0;
+  let atlasCycleRunning = false;
+  let atlasStateFrame = null;
 
   function prepareForAutoplay(video) {
     // Safari checks both the DOM attributes and the media properties.
@@ -933,19 +941,133 @@ if (footer && dragBar) {
   function loadVideo(video) {
     prepareForAutoplay(video);
 
-    if (!video.dataset.mediaLoaded) {
-      if (video.dataset.src && !video.getAttribute('src')) {
-        video.setAttribute('src', video.dataset.src);
-      }
+    const pendingRelease = releaseTimers.get(video);
+    if (pendingRelease) {
+      window.clearTimeout(pendingRelease);
+      releaseTimers.delete(video);
+    }
+
+    const preferredSrc = isMobileViewport() && video.dataset.mobileSrc
+      ? video.dataset.mobileSrc
+      : video.dataset.src;
+
+    if (!video.dataset.mediaLoaded || video.getAttribute('src') !== preferredSrc) {
+      if (preferredSrc) video.setAttribute('src', preferredSrc);
       video.preload = 'auto';
       video.load();
       video.dataset.mediaLoaded = 'true';
     }
   }
 
+  function releaseMobileVideo(video) {
+    video.pause();
+    video.removeAttribute('autoplay');
+
+    if (!isMobileViewport() || releaseTimers.has(video)) return;
+
+    const timer = window.setTimeout(() => {
+      releaseTimers.delete(video);
+      if (video.classList.contains('is-in-playback-zone')) return;
+
+      // Releasing the source also releases Safari/Chrome's decoder. The original
+      // URL remains in data-src and is restored when the video comes back onscreen.
+      video.removeAttribute('src');
+      video.preload = 'none';
+      video.load();
+      delete video.dataset.mediaLoaded;
+    }, 1200);
+
+    releaseTimers.set(video, timer);
+  }
+
+  function isAtlasOpeningVideo(video) {
+    return atlasOpeningVideos.includes(video);
+  }
+
+  function atlasGroupIsVisible() {
+    return !isMobileViewport() && atlasOpeningVideos.some((video) => (
+      video.classList.contains('is-in-playback-zone')
+    ));
+  }
+
+  function stopAtlasCycle() {
+    atlasCycleGeneration += 1;
+    atlasCycleRunning = false;
+    window.clearTimeout(atlasCycleTimer);
+    atlasCycleTimer = null;
+    atlasOpeningVideos.forEach((video) => video.pause());
+  }
+
+  function waitForAtlasVideo(video) {
+    loadVideo(video);
+    if (video.readyState >= 2 && Number.isFinite(video.duration)) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      const finish = () => resolve();
+      video.addEventListener('canplay', finish, { once: true });
+      video.addEventListener('error', finish, { once: true });
+    });
+  }
+
+  async function runAtlasCycle(generation) {
+    if (generation !== atlasCycleGeneration || !atlasGroupIsVisible()) return;
+
+    await Promise.all(atlasOpeningVideos.map(waitForAtlasVideo));
+    if (generation !== atlasCycleGeneration || !atlasGroupIsVisible()) return;
+
+    const playableVideos = atlasOpeningVideos.filter((video) => (
+      Number.isFinite(video.duration) && video.duration > 0
+    ));
+    if (!playableVideos.length) return;
+
+    const longestDuration = Math.max(...playableVideos.map((video) => video.duration));
+
+    playableVideos.forEach((video) => {
+      video.loop = false;
+      video.pause();
+      video.currentTime = 0;
+    });
+
+    await Promise.all(playableVideos.map((video) => video.play().catch(() => { })));
+    if (generation !== atlasCycleGeneration || !atlasGroupIsVisible()) return;
+
+    atlasCycleTimer = window.setTimeout(() => {
+      runAtlasCycle(generation);
+    }, Math.max(100, longestDuration * 1000));
+  }
+
+  function updateAtlasCycleState() {
+    atlasStateFrame = null;
+
+    if (atlasGroupIsVisible()) {
+      if (atlasCycleRunning) return;
+      atlasCycleRunning = true;
+      atlasCycleGeneration += 1;
+      runAtlasCycle(atlasCycleGeneration);
+    } else if (atlasCycleRunning) {
+      stopAtlasCycle();
+    }
+  }
+
+  function scheduleAtlasCycleStateUpdate() {
+    if (atlasStateFrame !== null) return;
+    atlasStateFrame = window.requestAnimationFrame(updateAtlasCycleState);
+  }
+
   function playVisibleVideo(video) {
     loadVideo(video);
     if (!video.classList.contains('is-in-playback-zone')) return;
+
+    if (isMobileViewport() && isAtlasOpeningVideo(video)) {
+      video.loop = true;
+    }
+
+    if (!isMobileViewport() && isAtlasOpeningVideo(video)) {
+      scheduleAtlasCycleStateUpdate();
+      return;
+    }
 
     // Adding autoplay only when the video is actually visible prevents the whole
     // page from downloading at once, while allowing muted inline autoplay on iOS.
@@ -987,8 +1109,8 @@ if (footer && dragBar) {
     });
   }, {
     root: isMobileViewport() ? null : scrollRoot,
-    // Download shortly before arrival, but do not start playback offscreen.
-    rootMargin: '600px 0px',
+    // On mobile, load videos individually and only shortly before arrival.
+    rootMargin: isMobileViewport() ? '180px 0px' : '600px 0px',
     threshold: 0.01
   });
 
@@ -996,13 +1118,24 @@ if (footer && dragBar) {
     entries.forEach((entry) => {
       const video = entry.target;
 
+      if (isMobileViewport()) {
+        scheduleMobileVisibilityCheck();
+        return;
+      }
+
       if (entry.isIntersecting) {
         video.classList.add('is-in-playback-zone');
         playVisibleVideo(video);
       } else {
         video.classList.remove('is-in-playback-zone');
-        if (!isMobileViewport()) video.removeAttribute('autoplay');
-        video.pause();
+        if (!isMobileViewport()) {
+          video.removeAttribute('autoplay');
+          video.pause();
+        } else {
+          releaseMobileVideo(video);
+        }
+
+        if (isAtlasOpeningVideo(video)) scheduleAtlasCycleStateUpdate();
       }
     });
   }, {
@@ -1013,7 +1146,8 @@ if (footer && dragBar) {
     threshold: 0.01
   });
 
-  mediaGroups.forEach((group) => preloadObserver.observe(group));
+  const preloadTargets = isMobileViewport() ? [...videos] : mediaGroups;
+  preloadTargets.forEach((target) => preloadObserver.observe(target));
   videos.forEach((video) => playbackObserver.observe(video));
 
   // IntersectionObserver with a nested scrolling element is unreliable in
@@ -1025,19 +1159,31 @@ if (footer && dragBar) {
     mobileVisibilityFrame = null;
     if (!isMobileViewport()) return;
 
-    videos.forEach((video) => {
+    const visibleCandidates = [...videos].map((video) => {
       const rect = video.getBoundingClientRect();
-      const isVisible = rect.bottom > 0
-        && rect.top < window.innerHeight
-        && rect.right > 0
-        && rect.left < window.innerWidth;
+      const visibleWidth = Math.max(0, Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0));
+      const visibleHeight = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+      const visibleArea = visibleWidth * visibleHeight;
+      const totalArea = Math.max(1, rect.width * rect.height);
 
-      if (isVisible) {
+      return {
+        video,
+        visibleArea,
+        visibleRatio: visibleArea / totalArea
+      };
+    }).filter(({ visibleArea, visibleRatio }) => (
+      visibleArea > 0 && visibleRatio >= 0.12
+    )).sort((a, b) => b.visibleArea - a.visibleArea);
+
+    const activeVideos = new Set(visibleCandidates.map(({ video }) => video));
+
+    videos.forEach((video) => {
+      if (activeVideos.has(video)) {
         video.classList.add('is-in-playback-zone');
         playVisibleVideo(video);
       } else {
         video.classList.remove('is-in-playback-zone');
-        video.pause();
+        releaseMobileVideo(video);
       }
     });
   }
@@ -1049,6 +1195,7 @@ if (footer && dragBar) {
 
   window.addEventListener('scroll', scheduleMobileVisibilityCheck, { passive: true, capture: true });
   window.addEventListener('resize', scheduleMobileVisibilityCheck, { passive: true });
+  window.addEventListener('resize', scheduleAtlasCycleStateUpdate, { passive: true });
   scheduleMobileVisibilityCheck();
 
   // Mobile Safari can pause media when the tab/app is backgrounded. Resume only
@@ -1123,29 +1270,6 @@ if (footer && dragBar) {
   window.addEventListener('resize', handleResize);
   // Initial check
   handleResize();
-})();
-
-// ===== Changwon Atlas Opening Videos: Hold First Frame on Desktop Hover =====
-(function initAtlasOpeningVideoHover() {
-  const openingVideos = document.querySelectorAll(
-    '#project-changwon-atlas .atlas-video-sequence video:nth-child(-n + 3)'
-  );
-  if (!openingVideos.length) return;
-
-  openingVideos.forEach((video) => {
-    video.addEventListener('mouseenter', () => {
-      if (window.innerWidth <= 768) return;
-      video.pause();
-      video.currentTime = 0;
-    });
-
-    video.addEventListener('mouseleave', () => {
-      if (window.innerWidth <= 768) return;
-      if (video.classList.contains('is-in-playback-zone')) {
-        video.play().catch(() => { });
-      }
-    });
-  });
 })();
 
 // ===== BC Threshold Still Carousel (Standard Narrow Layout Only) =====

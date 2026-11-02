@@ -883,6 +883,10 @@
       margin-top: 10px !important;
     }
 
+    .expanded-project .project-images.reading-digital-media .image-left video {
+      width: 80% !important;
+    }
+
     .expanded-project .project-images.bc-threshold-media {
       display: flex;
       flex-direction: column;

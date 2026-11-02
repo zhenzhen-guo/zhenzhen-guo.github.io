@@ -533,7 +533,7 @@ const projectPreviewImages = {
   'slice-wardrobe': 'assets/images/hanger/09.png',
   'clothing-finder': 'assets/images/hanger/06.png',
   'integrated-design-dimensions': 'assets/images/SJTU25/07.JPG',
-  'changwon-atlas': 'assets/images/changwon/03.png',
+  'changwon-atlas': 'assets/images/atlas/poster.mp4?v=20261103',
   'pin-stencil': 'assets/images/pin/02.png'
   // Temporarily hidden: 'goklok': 'assets/images/goklok/04.png'
 };
@@ -549,7 +549,11 @@ function showProjectPreview(targetLink) {
       .find((key) => targetLink.includes(key));
 
     if (previewKey) {
-      previewHtml = `<img src="${projectPreviewImages[previewKey]}" alt="Preview" />`;
+      const previewSrc = projectPreviewImages[previewKey];
+      const isVideoPreview = /\.(mp4|mov)(?:\?|$)/i.test(previewSrc);
+      previewHtml = isVideoPreview
+        ? `<video src="${previewSrc}" autoplay loop muted playsinline></video>`
+        : `<img src="${previewSrc}" alt="Preview" />`;
     } else {
       // Default: find the first image or video in this project
       const mediaItem = projectElement.querySelector('img, video');
@@ -557,7 +561,7 @@ function showProjectPreview(targetLink) {
         if (mediaItem.tagName === 'IMG') {
           previewHtml = `<img src="${mediaItem.src}" alt="Preview" />`;
         } else if (mediaItem.tagName === 'VIDEO') {
-          const src = mediaItem.src || mediaItem.querySelector('source')?.src;
+          const src = mediaItem.src || mediaItem.dataset.src || mediaItem.querySelector('source')?.src;
           previewHtml = `<video src="${src}" autoplay loop muted playsinline></video>`;
         }
       }
@@ -566,17 +570,14 @@ function showProjectPreview(targetLink) {
     if (previewHtml) {
       hoverPreviewContainer.innerHTML = previewHtml;
 
-      // Determine explicit width scale based on user per-project request
-      // 3 (pin-stencil) stays default 1x
-      // 6 (goklok) goes extra large 1.8x
-      // Others go to 1.5x
+      // Determine explicit preview width per project.
       let customWidth = '50vw'; // Default ~1.5x of the original 40vw base
       let customMaxWidth = '500px';
       let customMaxHeight = '500px';
 
       if (targetLink.includes('pin-stencil')) {
-        customWidth = '50vw';
-        customMaxWidth = '500px';
+        customWidth = '80vw';
+        customMaxWidth = '800px';
       } else if (targetLink.includes('goklok')) {
         customWidth = '90vw';
         customMaxWidth = '1000px';
@@ -593,8 +594,11 @@ function showProjectPreview(targetLink) {
         customWidth = '90vw';
         customMaxWidth = '900px';
       } else if (targetLink.includes('integrated-design-dimensions')) {
-        customWidth = '60vw';
-        customMaxWidth = '700px';
+        customWidth = '80vw';
+        customMaxWidth = '800px';
+      } else if (targetLink.includes('resonance-tuning')) {
+        customWidth = '80vw';
+        customMaxWidth = '800px';
       }
 
       hoverPreviewContainer.style.width = customWidth;
@@ -941,8 +945,7 @@ if (footer && dragBar) {
 
   function playVisibleVideo(video) {
     loadVideo(video);
-    const isDesktopScrubVideo = video.closest('.scrub-video-container') && window.innerWidth > 768;
-    if (isDesktopScrubVideo || !video.classList.contains('is-in-playback-zone')) return;
+    if (!video.classList.contains('is-in-playback-zone')) return;
 
     // Adding autoplay only when the video is actually visible prevents the whole
     // page from downloading at once, while allowing muted inline autoplay on iOS.
@@ -1081,16 +1084,24 @@ if (footer && dragBar) {
           video.play().catch(() => { }); // catch autoplay restrictions if any
         }
         container.style.cursor = 'default';
+        container.onmouseenter = null;
         container.onmousemove = null;
         container.onmouseleave = null;
       } else {
-        // Desktop: Pause, enable scrubbing
-        video.autoplay = false;
-        video.pause();
+        // Desktop: autoplay until the pointer enters, then pause for frame scrubbing.
+        video.autoplay = true;
+        if (video.classList.contains('is-in-playback-zone') && video.dataset.mediaLoaded) {
+          video.play().catch(() => { });
+        }
         container.style.cursor = 'col-resize';
+
+        container.onmouseenter = () => {
+          video.pause();
+        };
 
         container.onmousemove = (e) => {
           if (!video.duration) return; // Video not loaded yet
+          video.pause();
           const rect = container.getBoundingClientRect();
           let x = e.clientX - rect.left;
           x = Math.max(0, Math.min(x, rect.width));
@@ -1101,8 +1112,9 @@ if (footer && dragBar) {
         };
 
         container.onmouseleave = () => {
-          // Optional: reset to 0 or leave it where it was
-          // video.currentTime = 0; 
+          if (video.classList.contains('is-in-playback-zone')) {
+            video.play().catch(() => { });
+          }
         };
       }
     });
@@ -1111,6 +1123,29 @@ if (footer && dragBar) {
   window.addEventListener('resize', handleResize);
   // Initial check
   handleResize();
+})();
+
+// ===== Changwon Atlas Opening Videos: Hold First Frame on Desktop Hover =====
+(function initAtlasOpeningVideoHover() {
+  const openingVideos = document.querySelectorAll(
+    '#project-changwon-atlas .atlas-video-sequence video:nth-child(-n + 3)'
+  );
+  if (!openingVideos.length) return;
+
+  openingVideos.forEach((video) => {
+    video.addEventListener('mouseenter', () => {
+      if (window.innerWidth <= 768) return;
+      video.pause();
+      video.currentTime = 0;
+    });
+
+    video.addEventListener('mouseleave', () => {
+      if (window.innerWidth <= 768) return;
+      if (video.classList.contains('is-in-playback-zone')) {
+        video.play().catch(() => { });
+      }
+    });
+  });
 })();
 
 // ===== BC Threshold Still Carousel (Standard Narrow Layout Only) =====

@@ -887,6 +887,10 @@
       width: 80% !important;
     }
 
+    .expanded-project .project-images.reading-digital-media .image-right video {
+      display: none !important;
+    }
+
     .expanded-project .project-images.bc-threshold-media {
       display: flex;
       flex-direction: column;

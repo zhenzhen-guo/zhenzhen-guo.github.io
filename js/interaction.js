@@ -147,6 +147,29 @@ if (headerName && panel) {
 // Custom logic for new Index Dropdown
 const indexToggleBtn = document.getElementById('indexToggleBtn');
 const indexDropdown = document.getElementById('indexDropdown');
+const earlierWorksSection = document.getElementById('earlierWorksSection');
+const earlierWorksProjects = document.getElementById('earlierWorksProjects');
+const earlierWorksIndexItems = document.getElementById('earlierWorksIndexItems');
+const earlierWorksToggles = document.querySelectorAll('.earlier-works-toggle');
+
+function setEarlierWorksExpanded(expanded) {
+  if (earlierWorksProjects) earlierWorksProjects.hidden = !expanded;
+  if (earlierWorksIndexItems) earlierWorksIndexItems.hidden = !expanded;
+
+  earlierWorksToggles.forEach((toggle) => {
+    toggle.setAttribute('aria-expanded', String(expanded));
+    const icon = toggle.querySelector('.earlier-works-icon');
+    if (icon) icon.textContent = expanded ? '×' : '+';
+  });
+}
+
+earlierWorksToggles.forEach((toggle) => {
+  toggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const shouldExpand = toggle.getAttribute('aria-expanded') !== 'true';
+    setEarlierWorksExpanded(shouldExpand);
+  });
+});
 
 if (indexToggleBtn && indexDropdown) {
   indexToggleBtn.addEventListener('click', (event) => {
@@ -194,6 +217,10 @@ function scrollToProject(link) {
   const projectEl = document.getElementById(projectId);
 
   if (projectEl) {
+    if (earlierWorksSection?.contains(projectEl)) {
+      setEarlierWorksExpanded(true);
+    }
+
     const footer = document.getElementById('projectsFooter');
     if (footer) {
       // 1. 展开footer
@@ -534,8 +561,8 @@ const projectPreviewImages = {
   'clothing-finder': 'assets/images/hanger/06.png',
   'integrated-design-dimensions': 'assets/images/SJTU25/07.JPG',
   'changwon-atlas': 'assets/images/atlas/poster.mp4?v=20261103',
-  'pin-stencil': 'assets/images/pin/02.png'
-  // Temporarily hidden: 'goklok': 'assets/images/goklok/04.png'
+  'pin-stencil': 'assets/images/pin/02.png',
+  'goklok': 'assets/images/goklok/04.png'
 };
 
 function showProjectPreview(targetLink) {
@@ -585,8 +612,9 @@ function showProjectPreview(targetLink) {
         customWidth = '60vw';
         customMaxWidth = '600px';
       } else if (targetLink.includes('changwon-atlas')) {
-        customWidth = '80vw';
-        customMaxWidth = '800px';
+        customWidth = '32vw';
+        customMaxWidth = '360px';
+        customMaxHeight = '60vh';
       } else if (targetLink.includes('street-view-fails')) {
         customWidth = '90vw';
         customMaxWidth = '900px';
@@ -606,6 +634,9 @@ function showProjectPreview(targetLink) {
       hoverPreviewContainer.style.height = 'auto';
       hoverPreviewContainer.style.maxHeight = customMaxHeight;
       hoverPreviewContainer.style.opacity = '1';
+
+      const previewMedia = hoverPreviewContainer.querySelector('img, video');
+      if (previewMedia) previewMedia.style.maxHeight = customMaxHeight;
 
       // Calculate the vertical center of the available space above the collapsed footer (70px height)
       const availableHeight = window.innerHeight - 70;

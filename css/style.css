@@ -525,6 +525,24 @@
     height: auto;
   }
 
+  .baltic-circle-subproject {
+    margin-top: 30px;
+  }
+
+  .baltic-circle-festival-videos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    width: 100%;
+  }
+
+  .baltic-circle-festival-videos video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+  }
+
   .bc-threshold-stills {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

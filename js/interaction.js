@@ -557,6 +557,7 @@ if (container && svg) {
 const hoverPreviewContainer = document.getElementById('hover-preview-container');
 
 const projectPreviewImages = {
+  'edge-effect': 'assets/images/BC/BC26-2.mp4?v=20261110',
   'slice-wardrobe': 'assets/images/hanger/09.png',
   'clothing-finder': 'assets/images/hanger/06.png',
   'integrated-design-dimensions': 'assets/images/SJTU25/07.JPG',
@@ -611,6 +612,10 @@ function showProjectPreview(targetLink) {
       } else if (targetLink.includes('slice-wardrobe')) {
         customWidth = '60vw';
         customMaxWidth = '600px';
+      } else if (targetLink.includes('edge-effect')) {
+        customWidth = '32vw';
+        customMaxWidth = '360px';
+        customMaxHeight = '60vh';
       } else if (targetLink.includes('changwon-atlas')) {
         customWidth = '32vw';
         customMaxWidth = '360px';

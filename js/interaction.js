@@ -1365,44 +1365,6 @@ if (footer && dragBar) {
   syncCarouselMode();
 })();
 
-// ===== Changwon Atlas Exhibition Carousel (All Layouts) =====
-(function initAtlasStillCarousel() {
-  const gallery = document.querySelector('.atlas-stills-carousel');
-  if (!gallery) return;
-
-  const images = [...gallery.querySelectorAll('img')];
-  if (images.length < 2) return;
-
-  let activeIndex = 0;
-  let rotationTimer = null;
-
-  function showImage(index) {
-    activeIndex = index;
-    images.forEach((image, imageIndex) => {
-      const isActive = imageIndex === activeIndex;
-      image.classList.toggle('is-carousel-active', isActive);
-      image.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-    });
-  }
-
-  function syncRotation() {
-    if (rotationTimer !== null) {
-      window.clearInterval(rotationTimer);
-      rotationTimer = null;
-    }
-
-    showImage(activeIndex);
-    if (!document.hidden) {
-      rotationTimer = window.setInterval(() => {
-        showImage((activeIndex + 1) % images.length);
-      }, 800);
-    }
-  }
-
-  document.addEventListener('visibilitychange', syncRotation);
-  syncRotation();
-})();
-
 // ===== Scroll Reveal Animation for Images and Videos =====
 (function initScrollReveal() {
   const mediaElements = document.querySelectorAll('.footer-project-item img, .footer-project-item video');
